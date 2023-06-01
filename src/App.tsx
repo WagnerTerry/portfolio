@@ -1,5 +1,5 @@
 import Profile from "../src/assets/perfil.jpg";
-import Curriculum from '../src/assets/curriculo do Wagner.pdf'
+import Curriculum from '/src/data/curriculo do Wagner.pdf'
 import "./App.scss";
 
 function App() {
