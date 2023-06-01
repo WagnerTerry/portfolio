@@ -5,7 +5,7 @@ function App() {
   return (
     <div>
       <header>
-        <h2>Wagner Gonçalves 💻</h2>
+        <h1>Wagner Gonçalves 💻</h1>
         <div className="social_media">
           <div className="social_media_item">
             <a
@@ -101,7 +101,7 @@ function App() {
         <li>Testes unitários</li>
         <li>Git, GitHub , Bitbucket </li>
 
-        <h2>Experiência profissional</h2>
+        <h2>Experiência profissional</h2  >
         <li>Carteira Protegida - Empresa Calindra</li>
         <li>Ame Shopping - Empresa Calindra</li>
         <li>Omelete Store - Empresa Calindra</li>
