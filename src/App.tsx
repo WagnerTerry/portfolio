@@ -110,7 +110,7 @@ function App() {
 
         <a
           href={Curriculum}
-          download
+          download="Currículo do Wagner"
           rel="noreferrer"
         >
           <button>Baixar currículo</button>
