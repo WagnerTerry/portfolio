@@ -1,4 +1,5 @@
 import Profile from "../src/assets/perfil.jpg";
+import Curriculum from '../src/assets/curriculo do Wagner.pdf'
 import "./App.scss";
 
 function App() {
@@ -108,7 +109,7 @@ function App() {
         <li>Entre outros</li>
 
         <a
-          href="../src/assets/curriculo do Wagner.pdf"
+          href={Curriculum}
           download
           rel="noreferrer"
         >
