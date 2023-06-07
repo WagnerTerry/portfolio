@@ -6,7 +6,10 @@ function App() {
   return (
     <div>
       <header>
-        <h1>Wagner Gonçalves 💻</h1>
+        <div>
+          <h1>Wagner Gonçalves </h1>
+          <span>💻</span>
+        </div>
         <div className="social_media">
           <div className="social_media_item">
             <a

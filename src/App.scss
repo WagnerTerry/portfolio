@@ -9,6 +9,15 @@ body {
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
+
+    div {
+      display: flex;
+      align-items: center;
+
+      h1 {
+        margin-right: 8px;
+      }
+    }
   }
 
   a {
