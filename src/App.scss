@@ -144,3 +144,23 @@ body {
     }
   }
 }
+
+@media (max-width: 275px) {
+  div {
+    h1 {
+      font-size: 12pt;
+    }
+
+    h2 {
+      font-size: 12pt;
+    }
+
+    h3 {
+      font-size: 10pt;
+    }
+
+    span {
+      font-size: 10pt;
+    }
+  }
+}
