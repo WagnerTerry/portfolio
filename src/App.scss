@@ -18,14 +18,14 @@ body {
       flex-direction: column;
       
       .first_name {
-        font-size: 30px;
+        font-size: 30pt;
         font-style: normal;
         font-weight: 400;
         line-height: normal;
       }
 
       .last_name {
-        font-size: 18px;
+        font-size: 18pt;
         font-style: normal;
         font-weight: 400;
         line-height: normal;
@@ -43,17 +43,20 @@ body {
         justify-content: space-around;
         margin: 0;
         padding: 0;
+        font-size: 14pt;
+        font-family: Ubuntu;
       }
-
-      // li {
-      //   display: inline;
-      // }
     }
   }
 
-  // a {
-  //   color: #fefefe;
-  // }
+  a {
+    text-decoration: none;
+    color: #000;
+  }
+
+  a:hover {
+    color: #09e1bd;
+  }
 
   h1 {
     font-size: 28pt;
