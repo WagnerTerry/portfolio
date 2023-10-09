@@ -22,7 +22,7 @@ body {
       color: #000;
       font-family: Michroma;
       flex-direction: column;
-      
+
       .first_name {
         font-size: 30pt;
         font-style: normal;
@@ -64,37 +64,23 @@ body {
     color: #09e1bd;
   }
 
-  h1 {
-    font-size: 28pt;
-  }
-
-  h2 {
-    font-size: 22pt;
-  }
-
-  h3 {
-    width: 80%;
-  }
-
-  .social_media {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-
-    .social_media_item {
-      padding: 0.4rem;
-    }
-  }
-
-  .profile {
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-
   main {
-    text-align: initial;
+    .presentation {
+      margin-top: 80px;
+
+      span {
+        color: #000;
+        font-family: Ubuntu;
+        font-size: 56px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+
+        strong {
+          color: rgb(0, 128, 255);
+        }
+      }
+    }
   }
 
   img {

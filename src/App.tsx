@@ -90,6 +90,17 @@ function App() {
       </header>
 
       <main>
+
+        <div className="presentation">
+          <span>E aí, <br />
+          tudo bem? <br />
+          Me chamo <br />
+          Wagner, Sou <br />
+          <strong>Dev FullStack</strong>
+          </span>
+        </div>
+
+        {/* <div id="teste">
         <h2>Desenvolvedor de Software</h2>
         <div className="profile">
           <h3>
@@ -133,6 +144,7 @@ function App() {
         >
           <button>Baixar currículo</button>
         </a>
+        </div> */}
       </main>
       {/* <div id='skills'>
         <span>teste</span>
