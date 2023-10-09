@@ -18,10 +18,10 @@ function App() {
 
         <nav>
           <ul>
-            <li><a href="#home">Sobre</a></li>
-            <li><a href="#news">Projetos</a></li>
-            <li><a href="#contact">Skills</a></li>
-            <li><a href="#about">Contato</a></li>
+            <li><a href="#about">Sobre</a></li>
+            <li><a href="#projects">Projetos</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#contact">Contato</a></li>
           </ul>
         </nav>
 
@@ -134,6 +134,10 @@ function App() {
           <button>Baixar currículo</button>
         </a>
       </main>
+      {/* <div id='skills'>
+        <span>teste</span>
+      </div> */}
+
     </div>
   );
 }
