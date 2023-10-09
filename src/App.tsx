@@ -6,11 +6,26 @@ function App() {
   return (
     <div>
       <header>
-        <div>
-          <h1>Wagner Gonçalves </h1>
-          <span>💻</span>
+        <div className="full_name">
+          <strong className="first_name">Wagner</strong>
+          {/* <br /> */}
+          <strong className="last_name">Gonçalves</strong>
+          {/* <span>💻</span> */}
         </div>
-        <div className="social_media">
+        {/* <div className="menu">
+
+        </div> */}
+
+        <nav>
+          <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#news">News</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="#about">About</a></li>
+          </ul>
+        </nav>
+
+        {/* <div className="social_media">
           <div className="social_media_item">
             <a
               target="_blank"
@@ -71,7 +86,7 @@ function App() {
               </svg>
             </a>
           </div>
-        </div>
+        </div> */}
       </header>
 
       <main>
