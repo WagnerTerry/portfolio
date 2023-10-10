@@ -80,6 +80,31 @@ body {
           color: rgb(28, 138, 248);
         }
       }
+
+      .presentation-text {
+        width: 50%;
+
+        .my-projects {
+          display: flex;
+          align-items: center;
+          margin-top: 16px;
+          cursor: pointer;
+
+          span {
+            font-family: Ubuntu;
+            font-size: 25px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+            margin-left: 16px;
+          }
+
+          img {
+            width: 38px;
+            height: 38px;
+          }
+        }
+      }
     }
   }
 

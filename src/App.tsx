@@ -1,5 +1,4 @@
-import Profile from "../src/assets/perfil.jpg";
-import Curriculum from '/src/data/curriculo do Wagner.pdf'
+import Play from '../src/assets/play.svg'
 import "./App.scss";
 
 function App() {
@@ -92,12 +91,23 @@ function App() {
       <main>
 
         <div className="presentation">
+          <div className='presentation-text'>
           <span>E aí, <br />
           tudo bem? <br />
           Me chamo <br />
           Wagner, Sou <br />
           <strong>Dev FullStack</strong>
           </span>
+
+          <div className='my-projects'>
+          <img src={Play} alt="Ícone para ver os projetos." />
+          <span>Confira meus Projetos!</span>
+          </div>
+          </div>
+
+          <div className='profile-picture'>
+
+          </div>
         </div>
 
         {/* <div id="teste">
