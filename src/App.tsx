@@ -5,35 +5,36 @@ import "./App.scss";
 function App() {
   return (
     <div>
-      <header>
-        <div className="full_name">
-          <strong className="first_name">Wagner</strong>
-          {/* <br /> */}
-          <strong className="last_name">Gonçalves</strong>
-          {/* <span>💻</span> */}
-        </div>
-        {/* <div className="menu">
+      <div id="about">
+        <header>
+          <div className="full_name">
+            <strong className="first_name">Wagner</strong>
+            {/* <br /> */}
+            <strong className="last_name">Gonçalves</strong>
+            {/* <span>💻</span> */}
+          </div>
+          {/* <div className="menu">
 
         </div> */}
 
-        <nav>
-          <ul>
-            <li>
-              <a href="#about">Sobre</a>
-            </li>
-            <li>
-              <a href="#projects">Projetos</a>
-            </li>
-            <li>
-              <a href="#skills">Skills</a>
-            </li>
-            <li>
-              <a href="#contact">Contato</a>
-            </li>
-          </ul>
-        </nav>
+          <nav>
+            <ul>
+              <li>
+                <a href="#about">Sobre</a>
+              </li>
+              <li>
+                <a href="#projects">Projetos</a>
+              </li>
+              <li>
+                <a href="#skills">Skills</a>
+              </li>
+              <li>
+                <a href="#contact">Contato</a>
+              </li>
+            </ul>
+          </nav>
 
-        {/* <div className="social_media">
+          {/* <div className="social_media">
           <div className="social_media_item">
             <a
               target="_blank"
@@ -95,9 +96,8 @@ function App() {
             </a>
           </div>
         </div> */}
-      </header>
+        </header>
 
-      <main>
         <div className="presentation">
           <div className="presentation-text">
             <span>
@@ -118,8 +118,13 @@ function App() {
             <img src={Profile} alt="Foto de perfil" />
           </div>
         </div>
+      </div>
 
-        {/* <div id="teste">
+      <div id="projects">
+        <h2>Projetos</h2>
+      </div>
+
+      {/* <div id="teste">
         <h2>Desenvolvedor de Software</h2>
         <div className="profile">
           <h3>
@@ -164,7 +169,6 @@ function App() {
           <button>Baixar currículo</button>
         </a>
         </div> */}
-      </main>
       {/* <div id='skills'>
         <span>teste</span>
       </div> */}
