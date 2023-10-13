@@ -1,4 +1,5 @@
-import Play from '../src/assets/play.svg'
+import Play from "../src/assets/play.svg";
+import Profile from "../src/assets/profile.png";
 import "./App.scss";
 
 function App() {
@@ -17,10 +18,18 @@ function App() {
 
         <nav>
           <ul>
-            <li><a href="#about">Sobre</a></li>
-            <li><a href="#projects">Projetos</a></li>
-            <li><a href="#skills">Skills</a></li>
-            <li><a href="#contact">Contato</a></li>
+            <li>
+              <a href="#about">Sobre</a>
+            </li>
+            <li>
+              <a href="#projects">Projetos</a>
+            </li>
+            <li>
+              <a href="#skills">Skills</a>
+            </li>
+            <li>
+              <a href="#contact">Contato</a>
+            </li>
           </ul>
         </nav>
 
@@ -89,24 +98,24 @@ function App() {
       </header>
 
       <main>
-
         <div className="presentation">
-          <div className='presentation-text'>
-          <span>E aí, <br />
-          tudo bem? <br />
-          Me chamo <br />
-          Wagner, Sou <br />
-          <strong>Dev FullStack</strong>
-          </span>
+          <div className="presentation-text">
+            <span>
+              E aí, <br />
+              tudo bem? <br />
+              Me chamo <br />
+              Wagner, Sou <br />
+              <strong>Dev FullStack</strong>
+            </span>
 
-          <div className='my-projects'>
-          <img src={Play} alt="Ícone para ver os projetos." />
-          <span>Confira meus Projetos!</span>
+            <div className="my-projects">
+              <img src={Play} alt="Ícone para ver os projetos." />
+              <span>Confira meus Projetos!</span>
+            </div>
           </div>
-          </div>
 
-          <div className='profile-picture'>
-
+          <div className="profile-picture">
+            <img src={Profile} alt="Foto de perfil" />
           </div>
         </div>
 
@@ -159,7 +168,6 @@ function App() {
       {/* <div id='skills'>
         <span>teste</span>
       </div> */}
-
     </div>
   );
 }

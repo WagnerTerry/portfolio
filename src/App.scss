@@ -67,6 +67,9 @@ body {
   main {
     .presentation {
       margin-top: 80px;
+      display: flex;
+      align-items: center;
+    
 
       span {
         color: #000;
@@ -82,7 +85,7 @@ body {
       }
 
       .presentation-text {
-        width: 50%;
+        width: 40%;
 
         .my-projects {
           display: flex;
@@ -105,25 +108,34 @@ body {
           }
         }
       }
+
+      .profile-picture {
+        flex: 1;
+        text-align: center;
+        // img {
+        //    max-width: 90%;
+        //    width: 100%;
+        // }
+      }
     }
   }
 
-  img {
-    width: 160px;
-    height: 160px;
-    border-radius: 10px;
-  }
+  // img {
+  //   width: 160px;
+  //   height: 160px;
+  //   border-radius: 10px;
+  // }
 
-  button {
-    border-radius: 10px;
-    width: 150px;
-    height: 32px;
-    margin-top: 24px;
-    background: linear-gradient(270deg, #b3ede3, #48bba8, #79ccee);
-    color: #fff;
-    font-weight: bold;
-    cursor: pointer;
-  }
+  // button {
+  //   border-radius: 10px;
+  //   width: 150px;
+  //   height: 32px;
+  //   margin-top: 24px;
+  //   background: linear-gradient(270deg, #b3ede3, #48bba8, #79ccee);
+  //   color: #fff;
+  //   font-weight: bold;
+  //   cursor: pointer;
+  // }
 }
 
 @media (max-width: 750px) {
