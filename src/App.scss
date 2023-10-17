@@ -5,6 +5,7 @@ html {
 body {
   margin: 0;
   font-size: 18pt;
+  font-family: Ubuntu;
   background-color: #fff;
   color: #111;
 
@@ -51,7 +52,6 @@ body {
           margin: 0;
           padding: 0;
           font-size: 14pt;
-          font-family: Ubuntu;
         }
       }
     }
@@ -72,7 +72,6 @@ body {
 
       span {
         color: #000;
-        font-family: Ubuntu;
         font-size: 56px;
         font-style: normal;
         font-weight: 700;
@@ -93,7 +92,6 @@ body {
           cursor: pointer;
 
           span {
-            font-family: Ubuntu;
             font-size: 25px;
             font-style: normal;
             font-weight: 400;
@@ -120,13 +118,40 @@ body {
   }
 
   #projects {
-    margin: 0;
+    margin: 80px 0 0 0;
     background: #f6f1f1;
     height: 800px;
     box-shadow: 0 -5px 10px rgba(0, 0, 0, 0.3),
       // Sombra superior
       0 5px 10px rgba(0, 0, 0, 0.3); // Sombra inferior
     transition: box-shadow 0.3s ease;
+
+    padding: 2rem;
+
+
+    h1 {
+      text-align: center;
+    }
+
+    .show-projects{
+      margin-top: 80px;
+      .container-one {
+        display: flex;
+        .project-container{
+          border: 14px solid blue;
+          background: #09e1bd;
+          // width: 50%;
+
+          img {
+            width: 100%;
+            height: 100%;
+          }
+        }
+        .project-info {
+          padding: 0 2rem;
+        }
+      }
+    }
   }
 }
 

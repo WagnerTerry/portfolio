@@ -121,7 +121,21 @@ function App() {
       </div>
 
       <div id="projects">
-        <h2>Projetos</h2>
+        <h1>Projetos</h1>
+
+        <div className="show-projects">
+          <div className="container-one">
+            <div className="project-container">
+              <img src={Profile} alt="projeto 1" />
+            </div>
+            <div className="project-info">
+              <strong>Sistema de gestão e estoque</strong>
+              <br />
+              <h3>Sistema web para controle de estoque, de loja de motopeças</h3>
+            </div>
+
+          </div>
+        </div>
       </div>
 
       {/* <div id="teste">
