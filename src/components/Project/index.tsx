@@ -18,7 +18,7 @@ export const Project = (props: IProject) => (
     <div className="project-info">
       <strong>{props.title}</strong>
       <br />
-      <span>{props.subtitle}</span>
+      <span className='project-subtitle'>{props.subtitle}</span>
       <br />
       <span>
         {props.developed}

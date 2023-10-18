@@ -136,11 +136,11 @@ body {
       margin-top: 80px;
       .container-one {
         display: flex;
+        justify-content: space-around;
         .project-container {
-          border: 14px solid blue;
+          border: 14px solid #0d95f8;
           background: #09e1bd;
           max-width: 526px;
-          // width: 50%;
 
           img {
             width: 100%;
@@ -149,12 +149,37 @@ body {
         }
         .project-info {
           padding: 0 2rem;
+          display: flex;
+          flex-direction: column;
 
           strong {
             font-size: 38px;
             font-style: normal;
             font-weight: 700;
             line-height: 37px;
+          }
+
+          span {
+            font-size: 19px;
+          }
+          .project-subtitle {
+            font-size: 27px;
+          }
+
+          button {
+            border-radius: 15px;
+            border: 1px solid ;
+            background-color: #0d95f8;
+
+            width: 171px;
+            height: 40px;
+
+            color: #fff;
+            text-align: center;
+            font-size: 19px;
+            font-style: normal;
+            font-weight: 700;
+            cursor: pointer;
           }
         }
       }
