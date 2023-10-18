@@ -3,6 +3,7 @@ import Profile from "../src/assets/profile.png";
 import Motorcycle from "../src/assets/motorcycle-cover.png";
 
 import "./App.scss";
+import { Project } from "./components/Project";
 
 function App() {
   return (
@@ -126,26 +127,16 @@ function App() {
         <h1>Projetos</h1>
 
         <div className="show-projects">
-          <div className="container-one">
-            <div className="project-container">
-              <img src={Motorcycle} alt="projeto 1" />
-            </div>
-            <div className="project-info">
-              <strong>Sistema de gestão e estoque</strong>
-              <br />
-              <span>
-                Sistema web para controle de estoque, de loja de motopeças
-              </span>
-              <br />
-              <span>
-                Sistema desenvolvido em ReactJs, Typescript, NodeJs e MongoDB
-              </span>
-              <br />
-              <a href="#projects">
-                <button>Veja no github</button>
-              </a>
-            </div>
-          </div>
+          <Project
+            className="container-one"
+            title="Sistema de gestão e estoque"
+            subtitle="Sistema web para controle de estoque, de loja de motopeças"
+            image={Motorcycle}
+            alt="Projeto 1"
+            developed="Sistema desenvolvido em ReactJs, Typescript, NodeJs e MongoDB"
+            link="#"
+          />
+  
         </div>
       </div>
 
