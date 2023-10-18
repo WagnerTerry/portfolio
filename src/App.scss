@@ -128,18 +128,18 @@ body {
 
     padding: 2rem;
 
-
     h1 {
       text-align: center;
     }
 
-    .show-projects{
+    .show-projects {
       margin-top: 80px;
       .container-one {
         display: flex;
-        .project-container{
+        .project-container {
           border: 14px solid blue;
           background: #09e1bd;
+          max-width: 526px;
           // width: 50%;
 
           img {
@@ -149,6 +149,13 @@ body {
         }
         .project-info {
           padding: 0 2rem;
+
+          strong {
+            font-size: 38px;
+            font-style: normal;
+            font-weight: 700;
+            line-height: 37px;
+          }
         }
       }
     }
