@@ -120,7 +120,6 @@ body {
   #projects {
     margin: 80px 0 0 0;
     background: #f6f1f1;
-    height: 800px;
     box-shadow: 0 -5px 10px rgba(0, 0, 0, 0.3),
       // Sombra superior
       0 5px 10px rgba(0, 0, 0, 0.3); // Sombra inferior
@@ -134,9 +133,11 @@ body {
 
     .show-projects {
       margin-top: 80px;
-      .container-one {
+      .container{
         display: flex;
         justify-content: space-around;
+        margin-bottom: 109px;
+        
         .project-container {
           border: 14px solid #0d95f8;
           background: #09e1bd;
@@ -182,6 +183,10 @@ body {
             cursor: pointer;
           }
         }
+      }
+
+      .reverse-container{
+        flex-direction: row-reverse;
       }
     }
   }

@@ -1,6 +1,7 @@
 import Play from "../src/assets/play.svg";
 import Profile from "../src/assets/profile.png";
 import Motorcycle from "../src/assets/motorcycle-cover.png";
+import DiskPizza from "../src/assets/disk-pizza.png";
 
 import "./App.scss";
 import { Project } from "./components/Project";
@@ -128,7 +129,7 @@ function App() {
 
         <div className="show-projects">
           <Project
-            className="container-one"
+            className="container"
             title="Sistema de gestão e estoque"
             subtitle="Sistema web para controle de estoque, de loja de motopeças"
             image={Motorcycle}
@@ -136,7 +137,16 @@ function App() {
             developed="Sistema desenvolvido em ReactJs, Typescript, NodeJs e MongoDB"
             link="#"
           />
-  
+
+          <Project
+            className="container reverse-container"
+            title="Pizzaria"
+            subtitle="Sistema web para controle do fluxo de caixa e pedidos de uma pizzaria."
+            image={DiskPizza}
+            alt="Projeto 2"
+            developed="Sistema desenvolvido em ReactJs, NodeJs e MySQL"
+            link="#"
+          />
         </div>
       </div>
 
