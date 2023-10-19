@@ -3,9 +3,13 @@ import Profile from "../src/assets/profile.png";
 import Motorcycle from "../src/assets/motorcycle-cover.png";
 import DiskPizza from "../src/assets/disk-pizza.png";
 import Dictionary from "../src/assets/dictionary.png";
+import StackFrontend from "../src/assets/stack-frontend.svg";
+import StackBackend from "../src/assets/stack-backend.svg";
+import StackMobile from "../src/assets/stack-mobile.svg";
 
 import "./App.scss";
 import { Project } from "./components/Project";
+import { Skills } from "./components/Skills";
 
 function App() {
   return (
@@ -134,7 +138,7 @@ function App() {
             title="Sistema de gestão e estoque"
             subtitle="Sistema web para controle de estoque, de loja de motopeças"
             image={Motorcycle}
-            alt="Projeto 1"
+            alt="Imagem do sistema de motopeças"
             developed="Sistema desenvolvido em ReactJs, Typescript, NodeJs e MongoDB"
             link="https://github.com/WagnerTerry/moto-pecas-projeto"
           />
@@ -144,7 +148,7 @@ function App() {
             title="Pizzaria"
             subtitle="Sistema web para controle do fluxo de caixa e pedidos de uma pizzaria."
             image={DiskPizza}
-            alt="Projeto 2"
+            alt="Imagem do sistema de pizzaria"
             developed="Sistema desenvolvido em ReactJs, NodeJs e MySQL"
             link="https://github.com/WagnerTerry/new_disk_pizza"
           />
@@ -154,7 +158,7 @@ function App() {
             title="Dicionário em Inglês"
             subtitle="Dicionário em inglês , com significados e fonéticas. "
             image={Dictionary}
-            alt="Projeto 1"
+            alt="Imagem do projeto dicionário"
             developed="Sistema desenvolvido em React Native, Typescript, Async Storage e Axios"
             link="https://github.com/WagnerTerry/challenge-coodesh-mobile"
           />
@@ -163,6 +167,34 @@ function App() {
 
       <div id="skills">
         <h1>Skills</h1>
+
+        <div className="present-skills">
+          <Skills
+            className="container"
+            title="Frontend Developer"
+            subtitle={`Há 4 anos me aprofundando nas stacks: \n
+             HTML5, CSS, Sass, Styled Components, Javascript, Typescript,
+             Angular, Vue, React, NextJs`}
+            image={StackFrontend}
+            alt="Stacks Frontend"
+          />
+
+          <Skills
+            className="container reverse-container"
+            title="Backend Developer"
+            subtitle="NodeJs, NestJs, MySQL, PostgreSQL, MongoDB, Docker, Swagger"
+            image={StackBackend}
+            alt="Stacks Backend"
+          />
+
+          <Skills
+            className="container"
+            title="Mobile Developer"
+            subtitle="React Native, Flutter e Ionic"
+            image={StackMobile}
+            alt="Stacks Mobile"
+          />
+        </div>
       </div>
 
       {/* <div id="teste">

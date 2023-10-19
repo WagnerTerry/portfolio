@@ -1,5 +1,3 @@
-import '../../App.scss'
-
 type IProject = {
   image: string;
   title: string;
