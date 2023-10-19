@@ -10,6 +10,7 @@ import StackMobile from "../src/assets/stack-mobile.svg";
 import "./App.scss";
 import { Project } from "./components/Project";
 import { Skills } from "./components/Skills";
+import { Contact } from "./components/Contact";
 
 function App() {
   return (
@@ -197,54 +198,23 @@ function App() {
         </div>
       </div>
 
-      {/* <div id="teste">
-        <h2>Desenvolvedor de Software</h2>
-        <div className="profile">
-          <h3>
-            Olá meu nome é Wagner, formado em Análise e Desenvolvimento de
-            Sistemas pela Unicarioca, sou um desenvolvedor de software desde
-            2019 e tive a oportunidade de trabalhar com diversas tecnologias e
-            em diferentes, e nos últimos anos atuei em diversas aplicações
-            utilizando o JavaScript e todo o seu ecossistema para o
-            desenvolvimento tanto no front, back e mobile.
-          </h3>
-          <img src={Profile} alt="foto de perfil" />
+      <div id="contact">
+        <h1>Contato</h1>
+
+        <div className="contact-details">
+          <Contact
+            className="container"
+            title="Sistema de gestão e estoque"
+            subtitle="Sistema web para controle de estoque, de loja de motopeças"
+            image={Motorcycle}
+            alt="Imagem do sistema de motopeças"
+            developed="Sistema desenvolvido em ReactJs, Typescript, NodeJs e MongoDB"
+            link="https://github.com/WagnerTerry/moto-pecas-projeto"
+          />
+          </div>
         </div>
 
-        <h2>Projetos</h2>
-
-        <li>Sistema de controle e estoque de um moto-peças</li>
-        <li>Sistema para pizzaria</li>
-        <li>Carrinho de compras</li>
-
-        <h2>Habilidades Técnicas</h2>
-
-        <li>HTML, CSS , JavaScript, TypeScript , Sass</li>
-        <li>React , Next</li>
-        <li>NodeJs, APIRest, Swagger</li>
-        <li>MySQL, MongoDB, Prisma, FireBase</li>
-        <li>React Native, Flutter</li>
-        <li>Noções básicas de AWS</li>
-        <li>Testes unitários</li>
-        <li>Git, GitHub , Bitbucket </li>
-
-        <h2>Experiência profissional</h2  >
-        <li>Carteira Protegida - Empresa Calindra</li>
-        <li>Ame Shopping - Empresa Calindra</li>
-        <li>Omelete Store - Empresa Calindra</li>
-        <li>Entre outros</li>
-
-        <a
-          href={Curriculum}
-          download="Currículo do Wagner"
-          rel="noreferrer"
-        >
-          <button>Baixar currículo</button>
-        </a>
-        </div> */}
-      {/* <div id='skills'>
-        <span>teste</span>
-      </div> */}
+   
     </div>
   );
 }
