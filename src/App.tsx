@@ -161,6 +161,10 @@ function App() {
         </div>
       </div>
 
+      <div id="skills">
+        <h1>Skills</h1>
+      </div>
+
       {/* <div id="teste">
         <h2>Desenvolvedor de Software</h2>
         <div className="profile">
