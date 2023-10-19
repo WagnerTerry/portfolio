@@ -6,11 +6,13 @@ import Dictionary from "../src/assets/dictionary.png";
 import StackFrontend from "../src/assets/stack-frontend.svg";
 import StackBackend from "../src/assets/stack-backend.svg";
 import StackMobile from "../src/assets/stack-mobile.svg";
+import PhotoContact from "../src/assets/photo-contact.jpeg";
+import Linkedin from "../src/assets/linkedin.jpeg";
+import Github from "../src/assets/github.png";
 
 import "./App.scss";
 import { Project } from "./components/Project";
 import { Skills } from "./components/Skills";
-import { Contact } from "./components/Contact";
 
 function App() {
   return (
@@ -202,19 +204,31 @@ function App() {
         <h1>Contato</h1>
 
         <div className="contact-details">
-          <Contact
-            className="container"
-            title="Sistema de gestão e estoque"
-            subtitle="Sistema web para controle de estoque, de loja de motopeças"
-            image={Motorcycle}
-            alt="Imagem do sistema de motopeças"
-            developed="Sistema desenvolvido em ReactJs, Typescript, NodeJs e MongoDB"
-            link="https://github.com/WagnerTerry/moto-pecas-projeto"
-          />
+          <div className="container">
+            <div className="contact-container">
+              <img src={PhotoContact} alt={"Foto de contato"} />
+            </div>
+            <div className="contact-info">
+              <strong>
+                Vamos tomar um <span className="coffee">Café?</span>
+              </strong>
+              <br />
+              <span className="contact-subtitle">
+                21 974841079 <br /> goncalveswagner15@gmail.com
+              </span>
+              <br />
+              <div className="social-media">
+              <a href={"https://www.linkedin.com/in/wagner-sgonçalves"} target="_blank">
+                <img src={Linkedin} alt="Ver perfil no Linkedin" />
+              </a>
+              <a href={"https://github.com/WagnerTerry"} target="_blank">
+                <img src={Github} alt="Ver Github" />
+              </a>
+            </div>
+            </div>
           </div>
         </div>
-
-   
+      </div>
     </div>
   );
 }

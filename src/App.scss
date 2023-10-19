@@ -139,7 +139,6 @@ body {
         .project-container {
           border: 14px solid #fff;
           box-shadow: 0px 4px 18px 0px rgba(0, 0, 0, 0.25);
-          background: #09e1bd;
           flex-shrink: 0;
           max-width: 526px;
 
@@ -286,16 +285,15 @@ body {
     }
 
     .contact-details {
-      margin-top: 80px;
+      margin-top: 120px;
       .container{
         display: flex;
         justify-content: space-around;
         margin-bottom: 109px;
         
         .contact-container {
-          border: 14px solid #fff;
+          border: 14px solid #0d95f8;
           box-shadow: 0px 4px 18px 0px rgba(0, 0, 0, 0.25);
-          background: #09e1bd;
           flex-shrink: 0;
           max-width: 526px;
 
@@ -311,66 +309,39 @@ body {
           padding: 0 2rem;
           display: flex;
           flex-direction: column;
+          justify-content: space-around;
 
           strong {
-            font-size: 38px;
+            font-size: 56px;
             font-style: normal;
             font-weight: 700;
-            line-height: 37px;
           }
 
-          span {
-            font-size: 19px;
+          .coffee {
+            font-size: 56px;
+            color: #0d95f8;
           }
+
+  
           .contact-subtitle {
             font-size: 27px;
+            line-height: 40px;
           }
 
-          button {
-            border-radius: 15px;
-            border: 1px solid ;
-            background-color: #0d95f8;
+          .social-media {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
 
-            width: 171px;
-            height: 40px;
-
-            color: #fff;
-            text-align: center;
-            font-size: 19px;
-            font-style: normal;
-            font-weight: 700;
-            cursor: pointer;
+            img {
+              max-width: 80px;
+            }
           }
         }
-      }
-
-      .reverse-container{
-        flex-direction: row-reverse;
-
-        // a {
-        //   text-align: end;
-        // }
       }
     }
   }
 }
-
-// img {
-//   width: 160px;
-//   height: 160px;
-//   border-radius: 10px;
-// }
-
-// button {
-//   border-radius: 10px;
-//   width: 150px;
-//   height: 32px;
-//   margin-top: 24px;
-//   background: linear-gradient(270deg, #b3ede3, #48bba8, #79ccee);
-//   color: #fff;
-//   font-weight: bold;
-//   cursor: pointer;
-// }
 
 @media (max-width: 750px) {
   body {
