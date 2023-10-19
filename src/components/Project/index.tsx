@@ -24,7 +24,7 @@ export const Project = (props: IProject) => (
         {props.developed}
       </span>
       <br />
-      <a href={props.link}>
+      <a href={props.link} target='_blank'>
         <button>Veja no github</button>
       </a>
     </div>

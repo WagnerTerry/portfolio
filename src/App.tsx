@@ -2,6 +2,7 @@ import Play from "../src/assets/play.svg";
 import Profile from "../src/assets/profile.png";
 import Motorcycle from "../src/assets/motorcycle-cover.png";
 import DiskPizza from "../src/assets/disk-pizza.png";
+import Dictionary from "../src/assets/dictionary.png";
 
 import "./App.scss";
 import { Project } from "./components/Project";
@@ -145,7 +146,17 @@ function App() {
             image={DiskPizza}
             alt="Projeto 2"
             developed="Sistema desenvolvido em ReactJs, NodeJs e MySQL"
-            link="#"
+            link="https://github.com/WagnerTerry/new_disk_pizza"
+          />
+
+          <Project
+            className="container"
+            title="Dicionário em Inglês"
+            subtitle="Dicionário em inglês , com significados e fonéticas. "
+            image={Dictionary}
+            alt="Projeto 1"
+            developed="Sistema desenvolvido em React Native, Typescript, Async Storage e Axios"
+            link="https://github.com/WagnerTerry/challenge-coodesh-mobile"
           />
         </div>
       </div>
