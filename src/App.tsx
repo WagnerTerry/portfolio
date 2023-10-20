@@ -1,16 +1,54 @@
-import Profile from "../src/assets/perfil.jpg";
-import Curriculum from '/src/data/curriculo do Wagner.pdf'
+import Play from "../src/assets/play.svg";
+import Profile from "../src/assets/profile.png";
+import Motorcycle from "../src/assets/motorcycle-cover.png";
+import DiskPizza from "../src/assets/disk-pizza.png";
+import Dictionary from "../src/assets/dictionary.png";
+import StackFrontend from "../src/assets/stack-frontend.svg";
+import StackBackend from "../src/assets/stack-backend.svg";
+import StackMobile from "../src/assets/stack-mobile.svg";
+import PhotoContact from "../src/assets/photo-contact.jpeg";
+import Linkedin from "../src/assets/linkedin.jpeg";
+import Github from "../src/assets/github.png";
+import CurriculumIcon from "../src/assets/icone-curriculo.png";
+import Curriculum from '../src/data/curriculo do Wagner.pdf'
+
 import "./App.scss";
+import { Project } from "./components/Project";
+import { Skills } from "./components/Skills";
 
 function App() {
   return (
     <div>
-      <header>
-        <div>
-          <h1>Wagner Gonçalves </h1>
-          <span>💻</span>
-        </div>
-        <div className="social_media">
+      <div id="about">
+        <header>
+          <div className="full_name">
+            <strong className="first_name">Wagner</strong>
+            {/* <br /> */}
+            <strong className="last_name">Gonçalves</strong>
+            {/* <span>💻</span> */}
+          </div>
+          {/* <div className="menu">
+
+        </div> */}
+
+          <nav>
+            <ul>
+              <li>
+                <a href="#about">Sobre</a>
+              </li>
+              <li>
+                <a href="#projects">Projetos</a>
+              </li>
+              <li>
+                <a href="#skills">Skills</a>
+              </li>
+              <li>
+                <a href="#contact">Contato</a>
+              </li>
+            </ul>
+          </nav>
+
+          {/* <div className="social_media">
           <div className="social_media_item">
             <a
               target="_blank"
@@ -71,54 +109,138 @@ function App() {
               </svg>
             </a>
           </div>
+        </div> */}
+        </header>
+
+        <div className="presentation">
+          <div className="presentation-text">
+            <span>
+              E aí, <br />
+              tudo bem? <br />
+              Me chamo <br />
+              Wagner, Sou <br />
+              <strong>Dev FullStack</strong>
+            </span>
+
+            <div className="my-projects">
+              <img src={Play} alt="Ícone para ver os projetos." />
+              <span>Confira meus Projetos!</span>
+            </div>
+          </div>
+
+          <div className="profile-picture">
+            <img src={Profile} alt="Foto de perfil" />
+          </div>
         </div>
-      </header>
+      </div>
 
-      <main>
-        <h2>Desenvolvedor de Software</h2>
-        <div className="profile">
-          <h3>
-            Olá meu nome é Wagner, formado em Análise e Desenvolvimento de
-            Sistemas pela Unicarioca, sou um desenvolvedor de software desde
-            2019 e tive a oportunidade de trabalhar com diversas tecnologias e
-            em diferentes, e nos últimos anos atuei em diversas aplicações
-            utilizando o JavaScript e todo o seu ecossistema para o
-            desenvolvimento tanto no front, back e mobile.
-          </h3>
-          <img src={Profile} alt="foto de perfil" />
+      <div id="projects">
+        <h1>Projetos</h1>
+
+        <div className="show-projects">
+          <Project
+            className="container"
+            title="Sistema de gestão e estoque"
+            subtitle="Sistema web para controle de estoque, de loja de motopeças"
+            image={Motorcycle}
+            alt="Imagem do sistema de motopeças"
+            developed="Sistema desenvolvido em ReactJs, Typescript, NodeJs e MongoDB"
+            link="https://github.com/WagnerTerry/moto-pecas-projeto"
+          />
+
+          <Project
+            className="container reverse-container"
+            title="Pizzaria"
+            subtitle="Sistema web para controle do fluxo de caixa e pedidos de uma pizzaria."
+            image={DiskPizza}
+            alt="Imagem do sistema de pizzaria"
+            developed="Sistema desenvolvido em ReactJs, NodeJs e MySQL"
+            link="https://github.com/WagnerTerry/new_disk_pizza"
+          />
+
+          <Project
+            className="container"
+            title="Dicionário em Inglês"
+            subtitle="Dicionário em inglês , com significados e fonéticas. "
+            image={Dictionary}
+            alt="Imagem do projeto dicionário"
+            developed="Sistema desenvolvido em React Native, Typescript, Async Storage e Axios"
+            link="https://github.com/WagnerTerry/challenge-coodesh-mobile"
+          />
         </div>
+      </div>
 
-        <h2>Projetos</h2>
+      <div id="skills">
+        <h1>Skills</h1>
 
-        <li>Sistema de controle e estoque de um moto-peças</li>
-        <li>Sistema para pizzaria</li>
-        <li>Carrinho de compras</li>
+        <div className="present-skills">
+          <Skills
+            className="container"
+            title="Frontend Developer"
+            subtitle={`Sou Desenvolvedor com mais de 4 anos de experiência trabalhando em diversos ambientes, como: \n
+             HTML5, CSS, Sass, Styled Components, Javascript, Typescript,
+             Angular, Vue, React, NextJs`}
+            image={StackFrontend}
+            alt="Stacks Frontend"
+          />
 
-        <h2>Habilidades Técnicas</h2>
+          <Skills
+            className="container reverse-container"
+            title="Backend Developer"
+            subtitle="NodeJs, NestJs, MySQL, PostgreSQL, MongoDB, Docker, Swagger"
+            image={StackBackend}
+            alt="Stacks Backend"
+          />
 
-        <li>HTML, CSS , JavaScript, TypeScript , Sass</li>
-        <li>React , Next</li>
-        <li>NodeJs, APIRest, Swagger</li>
-        <li>MySQL, MongoDB, Prisma, FireBase</li>
-        <li>React Native, Flutter</li>
-        <li>Noções básicas de AWS</li>
-        <li>Testes unitários</li>
-        <li>Git, GitHub , Bitbucket </li>
+          <Skills
+            className="container"
+            title="Mobile Developer"
+            subtitle="React Native, Flutter e Ionic"
+            image={StackMobile}
+            alt="Stacks Mobile"
+          />
+        </div>
+      </div>
 
-        <h2>Experiência profissional</h2  >
-        <li>Carteira Protegida - Empresa Calindra</li>
-        <li>Ame Shopping - Empresa Calindra</li>
-        <li>Omelete Store - Empresa Calindra</li>
-        <li>Entre outros</li>
+      <div id="contact">
+        <h1>Contato</h1>
 
-        <a
-          href={Curriculum}
-          download="Currículo do Wagner"
-          rel="noreferrer"
-        >
-          <button>Baixar currículo</button>
-        </a>
-      </main>
+        <div className="contact-details">
+          <div className="container">
+            <div className="contact-container">
+              <img src={PhotoContact} alt={"Foto de contato"} />
+            </div>
+            <div className="contact-info">
+              <strong>
+                Vamos tomar um <span className="coffee">Café?</span>
+              </strong>
+              <br />
+              <span className="contact-subtitle">
+                21 974841079 <br /> goncalveswagner15@gmail.com
+              </span>
+              <br />
+              <div className="social-media">
+                <a
+                  href={"https://www.linkedin.com/in/wagner-sgonçalves"}
+                  target="_blank"
+                >
+                  <img src={Linkedin} alt="Ver perfil no Linkedin" />
+                </a>
+                <a href={"https://github.com/WagnerTerry"} target="_blank">
+                  <img src={Github} alt="Ver Github" />
+                </a>
+                <a
+                  href={Curriculum}
+                  download="Currículo do Wagner"
+                  rel="noreferrer"
+                >
+                  <img src={CurriculumIcon} alt="Baixar Currículo" />
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
