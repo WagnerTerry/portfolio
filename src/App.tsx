@@ -10,7 +10,7 @@ import PhotoContact from "../src/assets/photo-contact.jpeg";
 import Linkedin from "../src/assets/linkedin.jpeg";
 import Github from "../src/assets/github.png";
 import CurriculumIcon from "../src/assets/icone-curriculo.png";
-import Curriculum from '../src/data/curriculo do Wagner.pdf'
+import Curriculum from "../src/data/curriculo do Wagner.pdf";
 
 import "./App.scss";
 import { Project } from "./components/Project";
@@ -23,13 +23,9 @@ function App() {
         <header>
           <div className="full_name">
             <strong className="first_name">Wagner</strong>
-            {/* <br /> */}
             <strong className="last_name">Gonçalves</strong>
             {/* <span>💻</span> */}
           </div>
-          {/* <div className="menu">
-
-        </div> */}
 
           <nav>
             <ul>
@@ -239,6 +235,7 @@ function App() {
               </div>
             </div>
           </div>
+          <div className="height"></div>
         </div>
       </div>
     </div>

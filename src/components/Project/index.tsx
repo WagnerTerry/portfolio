@@ -16,13 +16,11 @@ export const Project = (props: IProject) => (
     <div className="project-info">
       <strong>{props.title}</strong>
       <br />
-      <span className='project-subtitle'>{props.subtitle}</span>
+      <span className="project-subtitle">{props.subtitle}</span>
       <br />
-      <span>
-        {props.developed}
-      </span>
+      <span>{props.developed}</span>
       <br />
-      <a href={props.link} target='_blank'>
+      <a href={props.link} target="_blank">
         <button>Veja no github</button>
       </a>
     </div>

@@ -131,11 +131,11 @@ body {
 
     .show-projects {
       margin-top: 80px;
-      .container{
+      .container {
         display: flex;
         justify-content: space-around;
         margin-bottom: 109px;
-        
+
         .project-container {
           border: 14px solid #fff;
           box-shadow: 0px 4px 18px 0px rgba(0, 0, 0, 0.25);
@@ -171,7 +171,7 @@ body {
 
           button {
             border-radius: 15px;
-            border: 1px solid ;
+            border: 1px solid;
             background-color: #0d95f8;
 
             width: 171px;
@@ -187,7 +187,7 @@ body {
         }
       }
 
-      .reverse-container{
+      .reverse-container {
         flex-direction: row-reverse;
 
         // a {
@@ -208,12 +208,12 @@ body {
 
     .present-skills {
       margin-top: 80px;
-      .container{
+      .container {
         display: flex;
         justify-content: space-around;
         align-items: center;
         margin-bottom: 109px;
-        
+
         .skills-container {
           max-width: 526px;
 
@@ -246,7 +246,7 @@ body {
 
           button {
             border-radius: 15px;
-            border: 1px solid ;
+            border: 1px solid;
             background-color: #0d95f8;
 
             width: 171px;
@@ -262,12 +262,8 @@ body {
         }
       }
 
-      .reverse-container{
+      .reverse-container {
         flex-direction: row-reverse;
-
-        // a {
-        //   text-align: end;
-        // }
       }
     }
   }
@@ -286,11 +282,11 @@ body {
 
     .contact-details {
       margin-top: 120px;
-      .container{
+      .container {
         display: flex;
         justify-content: space-around;
         margin-bottom: 109px;
-        
+
         .contact-container {
           border: 14px solid #0d95f8;
           box-shadow: 0px 4px 18px 0px rgba(0, 0, 0, 0.25);
@@ -322,7 +318,6 @@ body {
             color: #0d95f8;
           }
 
-  
           .contact-subtitle {
             font-size: 27px;
             line-height: 40px;
@@ -340,6 +335,10 @@ body {
         }
       }
     }
+  }
+
+  .height {
+    height: 200px;
   }
 }
 
