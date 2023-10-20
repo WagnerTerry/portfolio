@@ -9,6 +9,8 @@ import StackMobile from "../src/assets/stack-mobile.svg";
 import PhotoContact from "../src/assets/photo-contact.jpeg";
 import Linkedin from "../src/assets/linkedin.jpeg";
 import Github from "../src/assets/github.png";
+import CurriculumIcon from "../src/assets/icone-curriculo.png";
+import Curriculum from '../src/data/curriculo do Wagner.pdf'
 
 import "./App.scss";
 import { Project } from "./components/Project";
@@ -175,7 +177,7 @@ function App() {
           <Skills
             className="container"
             title="Frontend Developer"
-            subtitle={`Há 4 anos me aprofundando nas stacks: \n
+            subtitle={`Sou Desenvolvedor com mais de 4 anos de experiência trabalhando em diversos ambientes, como: \n
              HTML5, CSS, Sass, Styled Components, Javascript, Typescript,
              Angular, Vue, React, NextJs`}
             image={StackFrontend}
@@ -218,13 +220,23 @@ function App() {
               </span>
               <br />
               <div className="social-media">
-              <a href={"https://www.linkedin.com/in/wagner-sgonçalves"} target="_blank">
-                <img src={Linkedin} alt="Ver perfil no Linkedin" />
-              </a>
-              <a href={"https://github.com/WagnerTerry"} target="_blank">
-                <img src={Github} alt="Ver Github" />
-              </a>
-            </div>
+                <a
+                  href={"https://www.linkedin.com/in/wagner-sgonçalves"}
+                  target="_blank"
+                >
+                  <img src={Linkedin} alt="Ver perfil no Linkedin" />
+                </a>
+                <a href={"https://github.com/WagnerTerry"} target="_blank">
+                  <img src={Github} alt="Ver Github" />
+                </a>
+                <a
+                  href={Curriculum}
+                  download="Currículo do Wagner"
+                  rel="noreferrer"
+                >
+                  <img src={CurriculumIcon} alt="Baixar Currículo" />
+                </a>
+              </div>
             </div>
           </div>
         </div>
