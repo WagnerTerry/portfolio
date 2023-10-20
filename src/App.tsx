@@ -1,3 +1,5 @@
+import { useState, useEffect, useCallback } from 'react';
+
 import Play from "../src/assets/play.svg";
 import Profile from "../src/assets/profile.png";
 import Motorcycle from "../src/assets/motorcycle-cover.png";
@@ -12,11 +14,31 @@ import Github from "../src/assets/github.png";
 import CurriculumIcon from "../src/assets/icone-curriculo.png";
 import Curriculum from "../src/data/curriculo do Wagner.pdf";
 
-import "./App.scss";
 import { Project } from "./components/Project";
 import { Skills } from "./components/Skills";
 
+import "./App.scss";
+
 function App() {
+
+  const [prevScrollPos, setPrevScrollPos] = useState(0);
+  const [visible, setVisible] = useState(true);
+
+  const handleScroll = useCallback(() => {
+    const currentScrollPos = window.pageYOffset;
+  
+    setVisible(prevScrollPos > currentScrollPos || currentScrollPos < 120);
+    setPrevScrollPos(currentScrollPos);
+  }, [prevScrollPos]);
+  
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+  
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [handleScroll]);
+
   return (
     <div>
       <div id="about">
@@ -27,7 +49,7 @@ function App() {
             {/* <span>💻</span> */}
           </div>
 
-          <nav>
+          <nav className={visible ? 'navbar' : 'navbar hidden'}>
             <ul>
               <li>
                 <a href="#about">Sobre</a>
@@ -183,7 +205,7 @@ function App() {
           <Skills
             className="container reverse-container"
             title="Backend Developer"
-            subtitle="NodeJs, NestJs, MySQL, PostgreSQL, MongoDB, Docker, Swagger"
+            subtitle="NodeJs, NestJs, MySQL, PostgreSQL, MongoDB, Docker, Prisma, Swagger"
             image={StackBackend}
             alt="Stacks Backend"
           />
