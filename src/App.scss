@@ -370,6 +370,24 @@ body {
 
 @media (max-width: 400px) {
   body {
-    display: flex;
+    #about {
+      header {
+        .full_name {
+        .first_name {
+          font-size: 25pt;
+        }
+        .last_name {
+          font-size: 18pt;
+        }
+      }
+        nav {
+          display: none;
+        }
+
+        .menu-icon {
+          display: block;
+        }
+      }
+    }
   }
 }

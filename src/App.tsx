@@ -18,6 +18,7 @@ import { Project } from "./components/Project";
 import { Skills } from "./components/Skills";
 
 import "./App.scss";
+import Dropdown from "./components/Dropdown";
 
 function App() {
   const [prevScrollPos, setPrevScrollPos] = useState(0);
@@ -37,6 +38,9 @@ function App() {
       window.removeEventListener("scroll", handleScroll);
     };
   }, [handleScroll]);
+
+  const options = ['#projects', 'Opção 2', 'Opção 3'];
+
 
   return (
     <div>
@@ -66,8 +70,12 @@ function App() {
           </nav>
 
           <div className="menu-icon">
-            <div className="bar">a</div>
-            <div className="bar">b</div>
+          {/* <i className="material-icons">menu</i> */}
+
+            {/* <div className="bar">a</div>
+            <div className="bar">b</div> */}
+            <Dropdown options={options} />
+
             {/* <ul>
               <li>
                 <a href="#about">Sobre</a>
