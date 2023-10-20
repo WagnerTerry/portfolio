@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from "react";
 
 import Play from "../src/assets/play.svg";
 import Profile from "../src/assets/profile.png";
@@ -20,22 +20,21 @@ import { Skills } from "./components/Skills";
 import "./App.scss";
 
 function App() {
-
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [visible, setVisible] = useState(true);
 
   const handleScroll = useCallback(() => {
     const currentScrollPos = window.pageYOffset;
-  
+
     setVisible(prevScrollPos > currentScrollPos || currentScrollPos < 120);
     setPrevScrollPos(currentScrollPos);
   }, [prevScrollPos]);
-  
+
   useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-  
+    window.addEventListener("scroll", handleScroll);
+
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, [handleScroll]);
 
@@ -49,7 +48,7 @@ function App() {
             {/* <span>💻</span> */}
           </div>
 
-          <nav className={visible ? 'navbar' : 'navbar hidden'}>
+          <nav className={visible ? "navbar" : "navbar hidden"}>
             <ul>
               <li>
                 <a href="#about">Sobre</a>
@@ -65,6 +64,25 @@ function App() {
               </li>
             </ul>
           </nav>
+
+          <div className="menu-icon">
+            <div className="bar">a</div>
+            <div className="bar">b</div>
+            {/* <ul>
+              <li>
+                <a href="#about">Sobre</a>
+              </li>
+              <li>
+                <a href="#projects">Projetos</a>
+              </li>
+              <li>
+                <a href="#skills">Skills</a>
+              </li>
+              <li>
+                <a href="#contact">Contato</a>
+              </li>
+            </ul> */}
+          </div>
 
           {/* <div className="social_media">
           <div className="social_media_item">
