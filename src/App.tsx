@@ -161,8 +161,6 @@ function App() {
             <div className="my-projects">
               <a href="#projects">
                 <img src={Play} alt="Ícone para ver os projetos." />
-              </a>
-              <a href="#projects">
                 <span>Confira meus Projetos!</span>
               </a>
             </div>
