@@ -53,10 +53,6 @@ body {
       //   transition: top 0.3s;
       // }
 
-      // .hidden {
-      //   top: -60px;
-      // }
-
       nav {
         width: 48%;
         //background-color: #bd5d5d;
@@ -77,13 +73,9 @@ body {
         }
       }
 
-      .menu {
-        display: none;
-      }
-
-      .menu-icon {
-        display: none;
-      }
+      // .menu {
+      //   display: none;
+      // }
     }
 
     a {
@@ -374,9 +366,9 @@ body {
 }
 
 @media (max-width: 400px) {
-  #portfolio {
-    body {
-      display: flex;
+  body {
+    #portfolio {
+      // display: flex;
     }
 
     #about {
@@ -391,13 +383,15 @@ body {
         }
 
         .menu {
-          display: flex;
           background-color: chartreuse;
         }
 
         .navbar {
           display: none;
           background-color: #0d95f8;
+          &.visible {
+            display: flex;
+          }
         }
       }
     }

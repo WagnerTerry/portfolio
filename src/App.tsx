@@ -13,6 +13,8 @@ import Linkedin from "../src/assets/linkedin.jpeg";
 import Github from "../src/assets/github.png";
 import CurriculumIcon from "../src/assets/icone-curriculo.png";
 import Curriculum from "../src/data/curriculo do Wagner.pdf";
+import { FaBars } from 'react-icons/fa';
+
 
 import { Project } from "./components/Project";
 import { Skills } from "./components/Skills";
@@ -22,6 +24,8 @@ import "./App.scss";
 function App() {
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [visible, setVisible] = useState(true);
+  const [menuVisible, setMenuVisible] = useState(true);
+
 
   const handleScroll = useCallback(() => {
     const currentScrollPos = window.pageYOffset;
@@ -38,6 +42,11 @@ function App() {
     };
   }, [handleScroll]);
 
+  const toggleMenu = () => {
+    console.log("menu")
+    setMenuVisible(!menuVisible);
+  };
+
   return (
     <div id="portfolio">
       <div id="about">
@@ -48,7 +57,13 @@ function App() {
             {/* <span>💻</span> */}
           </div>
 
-          <nav className={visible ? "navbar" : "navbar hidden"}>
+          <div className="menu" onClick={toggleMenu}>
+        <FaBars />
+      </div>
+
+      <nav className={`navbar ${menuVisible ? "visible" : ""}`}>
+
+
             <ul>
               <li>
                 <a href="#about">Sobre</a>
@@ -64,29 +79,6 @@ function App() {
               </li>
             </ul>
           </nav>
-
-          <nav className="menu">
-              menu
-          </nav>
-
-          <div className="menu-icon">
-            <div className="bar">a</div>
-            <div className="bar">b</div>
-            {/* <ul>
-              <li>
-                <a href="#about">Sobre</a>
-              </li>
-              <li>
-                <a href="#projects">Projetos</a>
-              </li>
-              <li>
-                <a href="#skills">Skills</a>
-              </li>
-              <li>
-                <a href="#contact">Contato</a>
-              </li>
-            </ul> */}
-          </div>
 
           {/* <div className="social_media">
           <div className="social_media_item">
