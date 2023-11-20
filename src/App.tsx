@@ -39,7 +39,7 @@ function App() {
   }, [handleScroll]);
 
   return (
-    <div>
+    <div id="portfolio">
       <div id="about">
         <header>
           <div className="full_name">
@@ -63,6 +63,10 @@ function App() {
                 <a href="#contact">Contato</a>
               </li>
             </ul>
+          </nav>
+
+          <nav className="menu">
+              menu
           </nav>
 
           <div className="menu-icon">

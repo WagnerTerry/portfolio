@@ -8,7 +8,9 @@ body {
   font-family: Ubuntu;
   background-color: #fff;
   color: #111;
+}
 
+#portfolio {
   #about {
     padding: 2rem;
 
@@ -73,6 +75,10 @@ body {
           padding: 0;
           font-size: 14pt;
         }
+      }
+
+      .menu {
+        display: none;
       }
 
       .menu-icon {
@@ -365,14 +371,35 @@ body {
       }
     }
   }
-
-  .height {
-    height: 200px;
-  }
 }
 
 @media (max-width: 400px) {
-  body {
-    display: flex;
+  #portfolio {
+    body {
+      display: flex;
+    }
+
+    #about {
+      header {
+        .full_name {
+          .first_name {
+            font-size: 20pt;
+          }
+          .last_name {
+            font-size: 14pt;
+          }
+        }
+
+        .menu {
+          display: flex;
+          background-color: chartreuse;
+        }
+
+        .navbar {
+          display: none;
+          background-color: #0d95f8;
+        }
+      }
+    }
   }
 }
