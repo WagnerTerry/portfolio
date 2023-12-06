@@ -367,9 +367,9 @@ body {
 
 @media (max-width: 400px) {
   body {
-    #portfolio {
-      // display: flex;
-    }
+    // #portfolio {
+    //   // display: flex;
+    // }
 
     #about {
       header {
@@ -386,13 +386,26 @@ body {
           background-color: chartreuse;
         }
 
+        nav {
+          background-color: brown;
+          display: none;
+        }
+
         .navbar {
           display: none;
-          background-color: #0d95f8;
-          &.visible {
-            display: flex;
-          }
         }
+        
+        .navbar.visible {
+          display: block;
+        }
+
+        // nav .visible {
+        //   display: none;
+        //   background-color: #0d95f8;
+        //   &.visible {
+        //     display: flex;
+        //   }
+        // }
       }
     }
   }

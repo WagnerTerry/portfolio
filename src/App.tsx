@@ -24,8 +24,7 @@ import "./App.scss";
 function App() {
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [visible, setVisible] = useState(true);
-  const [menuVisible, setMenuVisible] = useState(true);
-
+  const [menuVisible, setMenuVisible] = useState(false);
 
   const handleScroll = useCallback(() => {
     const currentScrollPos = window.pageYOffset;
@@ -43,7 +42,6 @@ function App() {
   }, [handleScroll]);
 
   const toggleMenu = () => {
-    console.log("menu")
     setMenuVisible(!menuVisible);
   };
 
@@ -54,16 +52,15 @@ function App() {
           <div className="full_name">
             <strong className="first_name">Wagner</strong>
             <strong className="last_name">Gonçalves</strong>
-            {/* <span>💻</span> */}
           </div>
 
-          <div className="menu" onClick={toggleMenu}>
-        <FaBars />
-      </div>
+          {/* Adicione estilos condicionais para o ícone do menu em dispositivos móveis */}
+          <div className={`menu ${menuVisible ? "open" : ""}`} onClick={toggleMenu}>
+            <FaBars />
+          </div>
 
-      <nav className={`navbar ${menuVisible ? "visible" : ""}`}>
-
-
+          <div className="teste">
+          <nav className={`navbar ${menuVisible ? "visible" : ""}`}>
             <ul>
               <li>
                 <a href="#about">Sobre</a>
@@ -79,7 +76,7 @@ function App() {
               </li>
             </ul>
           </nav>
-
+          </div>
           {/* <div className="social_media">
           <div className="social_media_item">
             <a
