@@ -59,7 +59,6 @@ function App() {
             <FaBars />
           </div>
 
-          <div className="teste">
           <nav className={`navbar ${menuVisible ? "visible" : ""}`}>
             <ul>
               <li>
@@ -76,7 +75,6 @@ function App() {
               </li>
             </ul>
           </nav>
-          </div>
           {/* <div className="social_media">
           <div className="social_media_item">
             <a

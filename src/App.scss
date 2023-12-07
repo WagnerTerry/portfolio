@@ -43,6 +43,7 @@ body {
           margin-right: -6px;
         }
       }
+
       // .navbar {
       //   background-color: #bd5d5d;
       //   height: 60px;
@@ -73,9 +74,9 @@ body {
         }
       }
 
-      // .menu {
-      //   display: none;
-      // }
+      .menu {
+        display: none;
+      }
     }
 
     a {
@@ -158,6 +159,7 @@ body {
 
     .show-projects {
       margin-top: 80px;
+
       .container {
         display: flex;
         justify-content: space-around;
@@ -177,6 +179,7 @@ body {
             max-height: 400px;
           }
         }
+
         .project-info {
           padding: 0 2rem;
           display: flex;
@@ -192,6 +195,7 @@ body {
           span {
             font-size: 19px;
           }
+
           .project-subtitle {
             font-size: 27px;
           }
@@ -235,6 +239,7 @@ body {
 
     .present-skills {
       margin-top: 80px;
+
       .container {
         display: flex;
         justify-content: space-around;
@@ -252,6 +257,7 @@ body {
             max-height: 400px;
           }
         }
+
         .skills-info {
           padding: 0 2rem;
           display: flex;
@@ -267,6 +273,7 @@ body {
           span {
             font-size: 19px;
           }
+
           .skills-subtitle {
             font-size: 27px;
           }
@@ -309,6 +316,7 @@ body {
 
     .contact-details {
       margin-top: 120px;
+
       .container {
         display: flex;
         justify-content: space-around;
@@ -328,6 +336,7 @@ body {
             max-height: 400px;
           }
         }
+
         .contact-info {
           padding: 0 2rem;
           display: flex;
@@ -371,41 +380,47 @@ body {
     //   // display: flex;
     // }
 
-    #about {
-      header {
-        .full_name {
-          .first_name {
-            font-size: 20pt;
+    #portfolio {
+
+      #about {
+        header {
+          .full_name {
+            .first_name {
+              font-size: 20pt;
+            }
+
+            .last_name {
+              font-size: 14pt;
+            }
           }
-          .last_name {
-            font-size: 14pt;
+
+          .menu {
+            display: block;
+          }
+
+          nav {
+            width: 100%;
+            background-color: brown;
+            display: none;
+
+            ul {
+              flex-direction: column;
+            }
+          }
+
+          .navbar {
+            display: none;
+          }
+
+          .navbar.visible {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            background-color: #0d95f8;
+            margin-top: 24px;
+            height: 300px;
           }
         }
-
-        .menu {
-          background-color: chartreuse;
-        }
-
-        nav {
-          background-color: brown;
-          display: none;
-        }
-
-        .navbar {
-          display: none;
-        }
-        
-        .navbar.visible {
-          display: block;
-        }
-
-        // nav .visible {
-        //   display: none;
-        //   background-color: #0d95f8;
-        //   &.visible {
-        //     display: flex;
-        //   }
-        // }
       }
     }
   }
