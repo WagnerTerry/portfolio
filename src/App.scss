@@ -401,7 +401,10 @@ body {
           nav {
             width: 100%;
             background-color: brown;
-            display: none;
+            overflow: hidden; /* Adicione esta propriedade para esconder as partes fora do contêiner */
+            transform: translateX(-100%); /* Inicialmente fora da tela */
+            transition: transform 0.3s ease-in-out;
+            
 
             ul {
               flex-direction: column;
@@ -409,16 +412,21 @@ body {
           }
 
           .navbar {
-            display: none;
-          }
-
-          .navbar.visible {
             width: 100%;
             display: flex;
             justify-content: center;
             background-color: #0d95f8;
             margin-top: 24px;
             height: 300px;
+            overflow: hidden;
+            transform: translateX(-100%);
+            transition: transform 0.5s ease-in-out;
+            opacity: 0;
+          }
+
+          .navbar.visible {
+            transform: translateX(0);
+            opacity: 1;
           }
         }
       }
