@@ -432,7 +432,41 @@ body {
             transform: translateX(-120%);
           }
         }
+
+        .presentation {
+          margin-top: 20px;
+          align-items: start;
+          flex-direction: column;
+
+          .presentation-text {
+            width: 100%;
+
+            span {
+              font-size: 40px;
+            }
+
+            .my-projects {
+              margin-top: 24px;
+
+              img {
+                width: 30px;
+                height: 30px;
+              }
+
+              span {
+                font-size: 22px;
+              }
+            }
+
+          }
+
+          .profile-picture {
+            width: 100%;
+          }
+        }
       }
+
+      
     }
   }
 }
