@@ -436,7 +436,7 @@ body {
         .presentation {
           margin-top: 20px;
           align-items: start;
-          flex-direction: column;
+          flex-direction: column-reverse;
 
           .presentation-text {
             width: 100%;
@@ -446,7 +446,7 @@ body {
             }
 
             .my-projects {
-              margin-top: 24px;
+              margin-top: 80px;
 
               img {
                 width: 30px;
@@ -461,11 +461,14 @@ body {
           }
 
           .profile-picture {
-            width: 100%;
+            img {
+              width: 100%;
+
+            }
+            
           }
         }
       }
-
       
     }
   }
