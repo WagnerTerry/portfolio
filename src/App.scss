@@ -417,14 +417,19 @@ body {
             justify-content: center;
             background-color: #0d95f8;
             margin-top: 24px;
-            height: 300px;
+            height: 0;
             overflow: hidden;
-            transform: translateX(-120%);
-            transition: transform 0.3s ease-in-out;
+            transition: height 0.3s ease-in-out, transform 0.3s ease-in-out;
           }
 
           .navbar.visible {
+            height: 300px;
             transform: translateX(0);
+          }
+          
+          .navbar.hidden {
+            height: 0;
+            transform: translateX(-120%);
           }
         }
       }

@@ -59,7 +59,7 @@ function App() {
             <FaBars />
           </div>
 
-          <nav className={`navbar ${menuVisible ? "visible" : ""}`}>
+          <nav className={`navbar ${menuVisible ? "visible" : "hidden"}`}>
             <ul>
               <li>
                 <a href="#about">Sobre</a>
