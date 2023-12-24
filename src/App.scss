@@ -380,6 +380,10 @@ body {
     //   // display: flex;
     // }
 
+    h1 {
+      font-size: 30pt;
+    }
+
     #portfolio {
 
       #about {
@@ -442,7 +446,7 @@ body {
             width: 100%;
 
             span {
-              font-size: 40px;
+              font-size: 30pt;
             }
 
             .my-projects {
@@ -454,7 +458,7 @@ body {
               }
 
               span {
-                font-size: 22px;
+                font-size: 16pt;
               }
             }
 
@@ -466,6 +470,29 @@ body {
 
             }
             
+          }
+        }
+      }
+
+      #projects {
+        .show-projects {
+          margin-top: 40px;
+          .container {
+            display: block;
+
+            .project-info {
+              margin-top: 40px;
+              strong {
+                font-size: 22pt;
+              }
+              .project-subtitle {
+                font-size: 16pt;
+              }
+
+              a {
+                text-align: center;
+              }
+            }
           }
         }
       }
