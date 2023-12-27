@@ -376,9 +376,6 @@ body {
 
 @media (max-width: 400px) {
   body {
-    // #portfolio {
-    //   // display: flex;
-    // }
 
     h1 {
       font-size: 30pt;
@@ -493,6 +490,35 @@ body {
                 text-align: center;
               }
             }
+          }
+        }
+      }
+
+      #skills {
+        .present-skills {
+          margin-top: 40px;
+          .container {
+            flex-direction: column-reverse;
+            margin-bottom: 24px;
+
+            .skills-container {
+              margin-bottom: 40px;
+            }
+
+            .skills-info {
+              strong {
+                font-size: 22pt;
+              }
+              .skills-subtitle{
+                font-size: 16pt;
+              }
+
+            
+              
+              
+              
+            }
+           
           }
         }
       }
