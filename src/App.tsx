@@ -23,7 +23,7 @@ import "./App.scss";
 
 function App() {
   const [prevScrollPos, setPrevScrollPos] = useState(0);
-  const [visible, setVisible] = useState(true);
+  const [,setVisible] = useState(true);
   const [menuVisible, setMenuVisible] = useState(false);
 
   const handleScroll = useCallback(() => {
