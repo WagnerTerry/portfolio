@@ -522,6 +522,39 @@ body {
           }
         }
       }
+
+      #contact {
+        margin-top: 40px;
+
+        .contact-details {
+          margin-top: 80px;
+
+          .container {
+            flex-direction: column;
+
+            .contact-info {
+              margin-top: 40px;
+
+              strong, .coffee {
+                font-size: 26pt;
+              }
+
+              .contact-subtitle {
+                font-size: 14pt;
+              }
+
+              .social-media {
+                justify-content: space-between;
+
+                img {
+                  max-width: 64px;
+                }
+              }
+             
+            }
+          }
+        }
+      }
       
     }
   }
