@@ -359,7 +359,7 @@ body {
   body {
 
     h1 {
-      font-size: 28pt;
+      font-size: 26pt;
     }
 
     #portfolio {
@@ -499,7 +499,109 @@ body {
   }
 }
 
-@media (max-width: 530px) {
+@media (max-width: 700px) {
+  body {
+
+    h1 {
+      font-size: 26pt;
+    }
+
+    #portfolio {
+      #about {
+        header {
+          .full_name {
+            .first_name {
+              font-size: 20pt;
+            }
+
+            .last_name {
+              font-size: 14pt;
+            }
+          }
+
+          .menu {
+            display: block;
+            cursor: pointer;
+          }
+
+          nav {
+            width: 100%;
+            background-color: brown;
+            overflow: hidden;
+            /* Adicione esta propriedade para esconder as partes fora do contêiner */
+            transform: translateX(-100%);
+            /* Inicialmente fora da tela */
+            transition: transform 0.3s ease-in-out;
+
+
+            ul {
+              flex-direction: column;
+            }
+          }
+
+          .navbar {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            background-color: #0d95f8;
+            margin-top: 24px;
+            height: 0;
+            overflow: hidden;
+            transition: height 0.3s ease-in-out, transform 0.3s ease-in-out;
+          }
+
+          .navbar.visible {
+            height: 300px;
+            transform: translateX(0);
+          }
+
+          .navbar.hidden {
+            height: 0;
+            transform: translateX(-120%);
+          }
+        }
+
+        .presentation {
+          margin-top: 20px;
+          align-items: start;
+          flex-direction: column-reverse;
+
+          .presentation-text {
+            width: 100%;
+
+            span {
+              font-size: 30pt;
+            }
+
+            .my-projects {
+              margin-top: 80px;
+
+              img {
+                width: 30px;
+                height: 30px;
+              }
+
+              span {
+                font-size: 16pt;
+              }
+            }
+          }
+
+          .profile-picture {
+            img {
+              width: 100%;
+
+            }
+          }
+        }
+      }
+    }
+  }
+
+
+}
+
+@media (max-width: 550px) {
   body {
 
     h1 {
@@ -598,6 +700,8 @@ body {
       }
 
       #projects {
+        margin-top: 80px;
+
         .show-projects {
           margin-top: 40px;
 
@@ -624,18 +728,72 @@ body {
       }
 
       #skills {
+        text-align: center;
+
         .present-skills {
           margin-top: 40px;
 
+          .container {
+            flex-direction: column-reverse;
+            margin-bottom: 24px;
+
+            .skills-container {
+              margin-bottom: 40px;
+            }
+
+            .skills-info {
+              strong {
+                font-size: 22pt;
+              }
+
+              .skills-subtitle {
+                font-size: 16pt;
+              }
+            }
+
+          }
         }
       }
 
       #contact {
         margin-top: 40px;
+        height: auto;
 
         .contact-details {
           margin-top: 80px;
 
+          .container {
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+
+            .contact-container {
+              max-width: 300px;
+            }
+
+            .contact-info {
+              margin-top: 40px;
+
+              strong,
+              .coffee {
+                font-size: 26pt;
+              }
+
+              .contact-subtitle {
+                font-size: 14pt;
+              }
+
+              .social-media {
+                justify-content: space-between;
+
+                img {
+                  max-width: 64px;
+                }
+              }
+
+            }
+          }
         }
       }
 
