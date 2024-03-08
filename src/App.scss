@@ -551,8 +551,13 @@ body {
           }
 
           .navbar.visible {
-            height: 300px;
             transform: translateX(0);
+            height: 100%;
+            position: fixed;
+            top: -24px;
+            left: 0;
+            background: linear-gradient(to bottom, #3498db, #1843d1, #1ee97d);
+            ;
           }
 
           .navbar.hidden {
@@ -651,11 +656,6 @@ body {
             height: 0;
             overflow: hidden;
             transition: height 0.3s ease-in-out, transform 0.3s ease-in-out;
-          }
-
-          .navbar.visible {
-            height: 300px;
-            transform: translateX(0);
           }
 
           .navbar.hidden {
