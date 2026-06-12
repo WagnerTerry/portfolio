@@ -12,13 +12,30 @@ import Github from "../src/assets/github.png";
 import CurriculumIcon from "../src/assets/icone-curriculo.png";
 import Curriculum from '../src/data/curriculo do Wagner.pdf'
 
+import { useState } from "react";
+
 import "./App.scss";
 import { Project } from "./components/Project";
 import { Skills } from "./components/Skills";
+import { GameMode } from "./game/GameMode";
 
 function App() {
+  const [gameMode, setGameMode] = useState(false);
+
+  if (gameMode) {
+    return <GameMode onExit={() => setGameMode(false)} />;
+  }
+
   return (
     <div>
+      <button
+        className="game-mode-button"
+        onClick={() => setGameMode(true)}
+        title="Jogue o portfólio em modo game!"
+      >
+        🎮 Modo Game
+      </button>
+
       <div id="about">
         <header>
           <div className="full_name">
