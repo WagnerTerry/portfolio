@@ -2,35 +2,49 @@ type IProject = {
   image: string;
   title: string;
   subtitle: string;
-  developed: string;
+  techs: string[];
   link: string;
-  className: string;
   alt: string;
 };
 
 export const Project = (props: IProject) => (
-  <div className={props.className}>
-    <div className="border-[14px] border-white shadow-[0px_4px_18px_0px_rgba(0,0,0,0.25)] shrink-0 max-w-[526px] max-[750px]:max-w-full max-[750px]:w-full">
+  <article className="group flex flex-col bg-hud-panel border-4 border-hud-line shadow-[6px_6px_0_#000] transition-colors hover:border-neon-cyan/70">
+    <div className="relative border-b-4 border-hud-line bg-black overflow-hidden">
       <img
         src={props.image}
         alt={props.alt}
-        className="flex w-full h-full max-w-[550px] max-h-[400px]"
+        className="w-full h-48 sm:h-56 object-cover transition-transform duration-300 group-hover:scale-105"
       />
+      <span className="absolute top-2 left-2 font-press-start text-[8px] text-hud-bg bg-neon-yellow px-2 py-1 border-2 border-black">
+        QUEST
+      </span>
     </div>
-    <div className="px-8 flex flex-col max-[750px]:mt-4 max-[750px]:px-4">
-      <strong className="text-[38px] font-bold leading-[37px] max-[750px]:text-[28px]">
+
+    <div className="flex flex-col flex-1 gap-3 p-5">
+      <h3 className="font-press-start text-neon-yellow text-[11px] sm:text-xs leading-relaxed">
         {props.title}
-      </strong>
-      <br />
-      <span className="text-[27px] max-[750px]:text-[20px]">{props.subtitle}</span>
-      <br />
-      <span className="text-[19px]">{props.developed}</span>
-      <br />
-      <a href={props.link} target="_blank">
-        <button className="rounded-[15px] border border-solid bg-[#0d95f8] w-[171px] h-[40px] text-white text-center text-[19px] font-bold cursor-pointer">
-          Veja no github
-        </button>
+      </h3>
+      <p className="text-xl leading-snug text-slate-200">{props.subtitle}</p>
+
+      <ul className="flex flex-wrap gap-2 list-none p-0 m-0">
+        {props.techs.map((tech) => (
+          <li
+            key={tech}
+            className="text-base leading-none text-neon-cyan border border-neon-cyan/50 bg-neon-cyan/10 px-2 py-1"
+          >
+            {tech}
+          </li>
+        ))}
+      </ul>
+
+      <a
+        href={props.link}
+        target="_blank"
+        rel="noreferrer"
+        className="pixel-btn mt-auto bg-neon-cyan text-hud-bg text-[9px] sm:text-[10px] self-start"
+      >
+        VER NO GITHUB ▶
       </a>
     </div>
-  </div>
+  </article>
 );

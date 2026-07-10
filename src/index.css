@@ -9,13 +9,65 @@
 
   body {
     margin: 0;
-    font-size: 18pt;
-    font-family: Ubuntu, sans-serif;
-    background-color: #fff;
-    color: #111;
+    font-family: 'VT323', monospace;
+    font-size: 20px;
+    background-color: #070a14;
+    color: #dbe7ff;
+    background-image:
+      linear-gradient(rgba(0, 245, 255, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 245, 255, 0.05) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+
+  ::selection {
+    background: #ff2fd6;
+    color: #070a14;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #070a14;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #1c2440;
+    border: 2px solid #070a14;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #00f5ff;
   }
 
   .game-phaser canvas {
     image-rendering: pixelated;
+  }
+}
+
+@layer components {
+  /* Overlay de scanlines para efeito de monitor CRT */
+  .scanlines::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 90;
+    pointer-events: none;
+    background: repeating-linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.16) 0px,
+      rgba(0, 0, 0, 0.16) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+  }
+
+  .neon-text {
+    text-shadow: 0 0 6px currentColor, 0 0 20px currentColor;
+  }
+
+  .pixel-btn {
+    @apply inline-flex items-center justify-center gap-2 font-press-start text-[10px] sm:text-xs px-5 py-4 border-[3px] border-black shadow-[4px_4px_0_#000] cursor-pointer no-underline select-none active:translate-x-[3px] active:translate-y-[3px] active:shadow-[1px_1px_0_#000];
   }
 }

@@ -1,4 +1,3 @@
-import Play from "../src/assets/play.svg";
 import Profile from "../src/assets/profile.png";
 import Motorcycle from "../src/assets/motorcycle-cover.png";
 import DiskPizza from "../src/assets/disk-pizza.png";
@@ -7,16 +6,34 @@ import StackFrontend from "../src/assets/stack-frontend.svg";
 import StackBackend from "../src/assets/stack-backend.svg";
 import StackMobile from "../src/assets/stack-mobile.svg";
 import PhotoContact from "../src/assets/photo-contact.jpeg";
-import Linkedin from "../src/assets/linkedin.jpeg";
-import Github from "../src/assets/github.png";
-import CurriculumIcon from "../src/assets/icone-curriculo.png";
-import Curriculum from "../src/data/curriculo do Wagner.pdf";
+import Curriculum from "./data/curriculo do Wagner.pdf";
 
 import { useState } from "react";
 
 import { Project } from "./components/Project";
 import { Skills } from "./components/Skills";
 import { GameMode } from "./game/GameMode";
+
+const NAV_LINKS = [
+  { href: "#about", label: "SOBRE" },
+  { href: "#projects", label: "PROJETOS" },
+  { href: "#skills", label: "SKILLS" },
+  { href: "#contact", label: "CONTATO" },
+];
+
+function SectionTitle(props: { stage: string; title: string }) {
+  return (
+    <div className="flex items-center gap-3 sm:gap-5 mb-10 sm:mb-14">
+      <span className="font-press-start text-neon-magenta text-[9px] sm:text-xs shrink-0">
+        {props.stage}
+      </span>
+      <h2 className="font-press-start text-white neon-text text-base sm:text-2xl m-0 shrink-0">
+        {props.title}
+      </h2>
+      <div className="flex-1 h-1 min-w-8 bg-gradient-to-r from-neon-cyan/70 to-transparent" />
+    </div>
+  );
+}
 
 function App() {
   const [gameMode, setGameMode] = useState(false);
@@ -26,226 +43,227 @@ function App() {
   }
 
   return (
-    <div>
+    <div className="scanlines min-h-screen">
       <button
-        className="fixed right-6 bottom-6 z-[100] font-press-start text-[12px] text-white bg-game-purple border-[3px] border-game-dark shadow-[4px_4px_0_#1a1c2c] px-[18px] py-[14px] cursor-pointer animate-game-pulse hover:bg-game-red active:translate-x-[3px] active:translate-y-[3px] active:shadow-[1px_1px_0_#1a1c2c]"
+        className="fixed right-4 bottom-4 sm:right-6 sm:bottom-6 z-[100] pixel-btn bg-game-purple text-white animate-game-pulse hover:bg-game-red"
         onClick={() => setGameMode(true)}
         title="Jogue o portfólio em modo game!"
       >
-        🎮 Modo Game
+        🎮 MODO GAME
       </button>
 
-      <div id="about" className="p-8">
-        <header className="flex justify-between items-center flex-wrap max-[750px]:flex-col max-[750px]:items-center max-[750px]:mb-8">
-          <div className="flex items-end text-black font-michroma flex-col">
-            <strong className="text-[30pt] font-normal max-[450px]:text-[22pt]">
-              Wagner
-            </strong>
-            <strong className="text-[18pt] font-normal -mt-2 -mr-1.5 max-[450px]:text-[14pt]">
-              Gonçalves
-            </strong>
-          </div>
-
-          <nav className="w-[48%] max-[750px]:w-auto">
-            <ul className="list-none flex justify-around gap-6 m-0 p-0 text-[14pt] mt-5">
-              <li>
-                <a
-                  href="#about"
-                  className="no-underline text-black hover:text-[#09e1bd]"
-                >
-                  Sobre
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#projects"
-                  className="no-underline text-black hover:text-[#09e1bd]"
-                >
-                  Projetos
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#skills"
-                  className="no-underline text-black hover:text-[#09e1bd]"
-                >
-                  Skills
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#contact"
-                  className="no-underline text-black hover:text-[#09e1bd]"
-                >
-                  Contato
-                </a>
-              </li>
+      <header className="fixed top-0 inset-x-0 z-50 bg-hud-bg/90 backdrop-blur border-b-2 border-neon-cyan/40">
+        <div className="max-w-6xl mx-auto px-4 py-3 sm:py-4 flex flex-wrap items-center justify-between gap-x-6 gap-y-2">
+          <a
+            href="#about"
+            className="font-press-start text-neon-cyan neon-text text-xs sm:text-sm no-underline"
+          >
+            WAGNER.EXE
+          </a>
+          <nav>
+            <ul className="flex flex-wrap gap-x-4 gap-y-2 sm:gap-x-8 list-none m-0 p-0">
+              {NAV_LINKS.map((link) => (
+                <li key={link.href}>
+                  <a
+                    href={link.href}
+                    className="font-press-start text-[9px] sm:text-[11px] no-underline text-slate-300 transition-colors hover:text-neon-yellow"
+                  >
+                    ▸ {link.label}
+                  </a>
+                </li>
+              ))}
             </ul>
           </nav>
-        </header>
+        </div>
+      </header>
 
-        <div className="mt-20 flex items-center max-[750px]:flex-col">
-          <div className="w-[40%] max-[750px]:w-full max-[750px]:text-center">
-            <span className="text-black text-[56px] font-bold max-[750px]:text-[40px] max-[450px]:text-[30px]">
-              E aí, <br />
-              tudo bem? <br />
-              Me chamo <br />
-              Wagner, Sou <br />
-              <strong className="text-[#1c8af8]">Dev FullStack</strong>
-            </span>
-
-            <div className="flex items-center mt-4 cursor-pointer max-[750px]:justify-center">
-              <img
-                src={Play}
-                alt="Ícone para ver os projetos."
-                className="w-[38px] h-[38px]"
-              />
-              <span className="text-[25px] font-normal ml-4 max-[450px]:text-[18px]">
-                Confira meus Projetos!
+      <main className="max-w-6xl mx-auto px-4 sm:px-6">
+        <section
+          id="about"
+          className="scroll-mt-28 pt-32 sm:pt-44 pb-16 sm:pb-24 grid gap-12 md:grid-cols-2 items-center"
+        >
+          <div className="text-center md:text-left">
+            <p className="font-press-start text-neon-green text-[10px] sm:text-xs mb-6 sm:mb-8">
+              PLAYER 1 — READY <span className="animate-game-blink">▮</span>
+            </p>
+            <h1 className="font-press-start text-white text-base sm:text-xl lg:text-2xl leading-[2] m-0">
+              E AÍ, TUDO BEM?
+              <br />
+              ME CHAMO{" "}
+              <span className="text-neon-cyan neon-text">WAGNER</span>,
+              <br />
+              SOU{" "}
+              <span className="text-[#ffd700] neon-text">
+                DEV FULLSTACK
               </span>
+            </h1>
+            <p className="mt-6 text-xl sm:text-2xl text-slate-300 max-w-md mx-auto md:mx-0">
+              +4 anos construindo interfaces, APIs e apps. Explore as missões
+              abaixo ou aperte start para jogar o portfólio.
+            </p>
+            <div className="mt-8 flex flex-wrap justify-center md:justify-start gap-4">
+              <a href="#projects" className="pixel-btn bg-neon-cyan text-hud-bg">
+                ▶ VER PROJETOS
+              </a>
+              <button
+                className="pixel-btn bg-game-purple text-white hover:bg-game-red"
+                onClick={() => setGameMode(true)}
+              >
+                🎮 MODO GAME
+              </button>
             </div>
           </div>
 
-          <div className="flex-1 text-center max-[750px]:w-full max-[750px]:mt-8">
-            <img src={Profile} alt="Foto de perfil" className="max-w-full" />
+          <div className="relative justify-self-center animate-neon-float">
+            <div
+              aria-hidden
+              className="absolute inset-0 border-4 border-neon-magenta/60 translate-x-3 translate-y-3 sm:translate-x-4 sm:translate-y-4"
+            />
+            <img
+              src={Profile}
+              alt="Foto de perfil"
+              className="relative block w-64 sm:w-80 lg:w-96 max-w-full border-4 border-neon-cyan bg-hud-panel shadow-[0_0_35px_rgba(0,245,255,0.25)]"
+            />
           </div>
-        </div>
-      </div>
+        </section>
 
-      <div
-        id="projects"
-        className="mt-20 bg-[#f6f1f1] shadow-[inset_0px_5px_32px_rgba(0,0,0,0.3)] transition-shadow duration-300 ease-in-out p-8"
-      >
-        <h1 className="text-center font-press-start text-[26px] max-[750px]:text-[18pt] max-[450px]:text-[14pt] [text-shadow:3px_3px_0_rgba(13,149,248,0.35)]">
-          Projetos
-        </h1>
+        <section id="projects" className="scroll-mt-28 py-16 sm:py-24">
+          <SectionTitle stage="STAGE 01" title="PROJETOS" />
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+            <Project
+              title="Gestão e Estoque"
+              subtitle="Sistema web para controle de estoque de loja de motopeças."
+              image={Motorcycle}
+              alt="Imagem do sistema de motopeças"
+              techs={["ReactJs", "TypeScript", "NodeJs", "MongoDB"]}
+              link="https://github.com/WagnerTerry/moto-pecas-projeto"
+            />
+            <Project
+              title="Pizzaria"
+              subtitle="Sistema web para controle do fluxo de caixa e pedidos de uma pizzaria."
+              image={DiskPizza}
+              alt="Imagem do sistema de pizzaria"
+              techs={["ReactJs", "NodeJs", "MySQL"]}
+              link="https://github.com/WagnerTerry/new_disk_pizza"
+            />
+            <Project
+              title="Dicionário em Inglês"
+              subtitle="Dicionário em inglês, com significados e fonéticas."
+              image={Dictionary}
+              alt="Imagem do projeto dicionário"
+              techs={["React Native", "TypeScript", "Async Storage", "Axios"]}
+              link="https://github.com/WagnerTerry/challenge-coodesh-mobile"
+            />
+          </div>
+        </section>
 
-        <div className="mt-20">
-          <Project
-            className="flex justify-around mb-[109px] max-[750px]:flex-col max-[750px]:items-center"
-            title="Sistema de gestão e estoque"
-            subtitle="Sistema web para controle de estoque, de loja de motopeças"
-            image={Motorcycle}
-            alt="Imagem do sistema de motopeças"
-            developed="Sistema desenvolvido em ReactJs, Typescript, NodeJs e MongoDB"
-            link="https://github.com/WagnerTerry/moto-pecas-projeto"
-          />
+        <section id="skills" className="scroll-mt-28 py-16 sm:py-24">
+          <SectionTitle stage="STAGE 02" title="SKILLS" />
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+            <Skills
+              title="Frontend"
+              description="Mais de 4 anos de experiência criando interfaces em diversos ambientes."
+              techs={[
+                "HTML5",
+                "CSS",
+                "Sass",
+                "Styled Components",
+                "JavaScript",
+                "TypeScript",
+                "Angular",
+                "Vue",
+                "React",
+                "NextJs",
+              ]}
+              image={StackFrontend}
+              alt="Stacks Frontend"
+            />
+            <Skills
+              title="Backend"
+              description="APIs, bancos de dados e infraestrutura de serviços."
+              techs={[
+                "NodeJs",
+                "NestJs",
+                "MySQL",
+                "PostgreSQL",
+                "MongoDB",
+                "Docker",
+                "Swagger",
+              ]}
+              image={StackBackend}
+              alt="Stacks Backend"
+            />
+            <Skills
+              title="Mobile"
+              description="Apps híbridos e multiplataforma."
+              techs={["React Native", "Flutter", "Ionic"]}
+              image={StackMobile}
+              alt="Stacks Mobile"
+            />
+          </div>
+        </section>
 
-          <Project
-            className="flex justify-around mb-[109px] flex-row-reverse max-[750px]:flex-col max-[750px]:items-center"
-            title="Pizzaria"
-            subtitle="Sistema web para controle do fluxo de caixa e pedidos de uma pizzaria."
-            image={DiskPizza}
-            alt="Imagem do sistema de pizzaria"
-            developed="Sistema desenvolvido em ReactJs, NodeJs e MySQL"
-            link="https://github.com/WagnerTerry/new_disk_pizza"
-          />
-
-          <Project
-            className="flex justify-around mb-[109px] max-[750px]:flex-col max-[750px]:items-center"
-            title="Dicionário em Inglês"
-            subtitle="Dicionário em inglês , com significados e fonéticas. "
-            image={Dictionary}
-            alt="Imagem do projeto dicionário"
-            developed="Sistema desenvolvido em React Native, Typescript, Async Storage e Axios"
-            link="https://github.com/WagnerTerry/challenge-coodesh-mobile"
-          />
-        </div>
-      </div>
-
-      <div id="skills" className="mt-10 bg-white p-8">
-        <h1 className="text-center font-press-start text-[26px] max-[750px]:text-[18pt] max-[450px]:text-[14pt] [text-shadow:3px_3px_0_rgba(13,149,248,0.35)]">
-          Skills
-        </h1>
-
-        <div className="mt-20">
-          <Skills
-            className="flex justify-around items-center mb-[109px] max-[750px]:flex-col"
-            title="Frontend Developer"
-            subtitle={`Sou Desenvolvedor com mais de 4 anos de experiência trabalhando em diversos ambientes, como: \n
-             HTML5, CSS, Sass, Styled Components, Javascript, Typescript,
-             Angular, Vue, React, NextJs`}
-            image={StackFrontend}
-            alt="Stacks Frontend"
-          />
-
-          <Skills
-            className="flex justify-around items-center mb-[109px] flex-row-reverse max-[750px]:flex-col"
-            title="Backend Developer"
-            subtitle="NodeJs, NestJs, MySQL, PostgreSQL, MongoDB, Docker, Swagger"
-            image={StackBackend}
-            alt="Stacks Backend"
-          />
-
-          <Skills
-            className="flex justify-around items-center mb-[109px] max-[750px]:flex-col"
-            title="Mobile Developer"
-            subtitle="React Native, Flutter e Ionic"
-            image={StackMobile}
-            alt="Stacks Mobile"
-          />
-        </div>
-      </div>
-
-      <div
-        id="contact"
-        className="mt-20 bg-[#f6f1f1] shadow-[inset_0px_5px_32px_rgba(0,0,0,0.3)] transition-shadow duration-300 ease-in-out p-8"
-      >
-        <h1 className="text-center font-press-start text-[26px] max-[750px]:text-[18pt] max-[450px]:text-[14pt] [text-shadow:3px_3px_0_rgba(13,149,248,0.35)]">
-          Contato
-        </h1>
-
-        <div className="mt-[120px]">
-          <div className="flex justify-around mb-[109px] max-[750px]:flex-col max-[750px]:items-center">
-            <div className="border-[14px] border-[#0d95f8] shadow-[0px_4px_18px_0px_rgba(0,0,0,0.25)] shrink-0 max-w-[526px] max-[750px]:max-w-full max-[750px]:w-full">
+        <section id="contact" className="scroll-mt-28 py-16 sm:py-24">
+          <SectionTitle stage="FINAL BOSS" title="CONTATO" />
+          <div className="bg-hud-panel border-4 border-hud-line shadow-[8px_8px_0_#000] p-6 sm:p-10 grid gap-10 md:grid-cols-[minmax(0,420px)_1fr] items-center">
+            <div className="relative justify-self-center md:justify-self-start w-full max-w-[420px]">
+              <div
+                aria-hidden
+                className="absolute inset-0 border-4 border-neon-cyan/50 translate-x-3 translate-y-3"
+              />
               <img
                 src={PhotoContact}
                 alt="Foto de contato"
-                className="flex w-full h-full max-w-[550px] max-h-[400px]"
+                className="relative block w-full border-4 border-neon-magenta object-cover"
               />
             </div>
-            <div className="px-8 flex flex-col justify-around max-[750px]:mt-8 max-[750px]:px-4 max-[750px]:w-full">
-              <strong className="text-[56px] font-bold max-[750px]:text-[36px] max-[450px]:text-[28px]">
-                Vamos tomar um{" "}
-                <span className="text-[56px] text-[#0d95f8] max-[750px]:text-[36px] max-[450px]:text-[28px]">
-                  Café?
-                </span>
-              </strong>
-              <br />
-              <span className="text-[27px] leading-[40px] max-[750px]:text-[20px]">
-                21 974841079 <br /> goncalveswagner15@gmail.com
-              </span>
-              <br />
-              <div className="flex justify-around items-center">
+
+            <div className="flex flex-col gap-6 text-center md:text-left">
+              <h3 className="font-press-start text-white text-sm sm:text-lg leading-[2] m-0">
+                VAMOS TOMAR UM{" "}
+                <span className="text-neon-yellow neon-text">CAFÉ?</span>
+              </h3>
+              <div className="text-xl sm:text-2xl text-slate-300 leading-relaxed">
+                <p className="m-0">📟 21 97484-1079</p>
+                <p className="m-0 break-all">✉ goncalveswagner15@gmail.com</p>
+              </div>
+              <div className="flex flex-wrap justify-center md:justify-start gap-4">
                 <a
-                  href={"https://www.linkedin.com/in/wagner-sgonçalves"}
+                  href="https://www.linkedin.com/in/wagner-sgonçalves"
                   target="_blank"
+                  rel="noreferrer"
+                  className="pixel-btn bg-[#0077b5] text-white"
                 >
-                  <img
-                    src={Linkedin}
-                    alt="Ver perfil no Linkedin"
-                    className="max-w-[80px]"
-                  />
+                  LINKEDIN
                 </a>
-                <a href={"https://github.com/WagnerTerry"} target="_blank">
-                  <img src={Github} alt="Ver Github" className="max-w-[80px]" />
+                <a
+                  href="https://github.com/WagnerTerry"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="pixel-btn bg-[#24292e] text-white"
+                >
+                  GITHUB
                 </a>
                 <a
                   href={Curriculum}
                   download="Currículo do Wagner"
                   rel="noreferrer"
+                  className="pixel-btn bg-neon-green text-hud-bg"
                 >
-                  <img
-                    src={CurriculumIcon}
-                    alt="Baixar Currículo"
-                    className="max-w-[80px]"
-                  />
+                  CURRÍCULO ⬇
                 </a>
               </div>
             </div>
           </div>
-        </div>
-      </div>
+        </section>
+      </main>
+
+      <footer className="border-t-2 border-neon-cyan/30 py-8 px-4 text-center">
+        <p className="font-press-start text-[8px] sm:text-[10px] text-slate-400 m-0 leading-loose">
+          © 2026 WAGNER GONÇALVES — INSERT COIN TO CONTINUE{" "}
+          <span className="animate-game-blink">▮</span>
+        </p>
+      </footer>
     </div>
   );
 }
