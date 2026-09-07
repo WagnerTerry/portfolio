@@ -3,12 +3,16 @@ import {
   TILE,
   bakeSprite,
   buildWorldCanvas,
+  PLAYER_FRAME_HEIGHT,
   PLAYER_DOWN_STAND,
-  PLAYER_DOWN_WALK,
+  PLAYER_DOWN_WALK_A,
+  PLAYER_DOWN_WALK_B,
   PLAYER_SIDE_STAND,
-  PLAYER_SIDE_WALK,
+  PLAYER_SIDE_WALK_A,
+  PLAYER_SIDE_WALK_B,
   PLAYER_UP_STAND,
-  PLAYER_UP_WALK,
+  PLAYER_UP_WALK_A,
+  PLAYER_UP_WALK_B,
 } from "../pixelart";
 import {
   AUTO_TILES,
@@ -45,7 +49,7 @@ export class WorldScene extends Phaser.Scene {
     right: false,
   };
   private facing: Direction = "down";
-  private frameHeight = 24;
+  private frameHeight = PLAYER_FRAME_HEIGHT;
   private lastAutoTile = "";
 
   constructor() {
@@ -189,28 +193,29 @@ export class WorldScene extends Phaser.Scene {
       return;
     }
 
-    // Avatar padrão (matrizes em pixelart.ts)
-    this.frameHeight = 24;
+    // Avatar padrão (matrizes em pixelart.ts): 0 = parado, 1 e 2 = passos
+    this.frameHeight = PLAYER_FRAME_HEIGHT;
+    const flip = { flip: true };
     const defaults: Record<Direction, HTMLCanvasElement[]> = {
       down: [
         bakeSprite(PLAYER_DOWN_STAND),
-        bakeSprite(PLAYER_DOWN_WALK),
-        bakeSprite(PLAYER_DOWN_WALK, { flip: true }),
+        bakeSprite(PLAYER_DOWN_WALK_A),
+        bakeSprite(PLAYER_DOWN_WALK_B),
       ],
       up: [
         bakeSprite(PLAYER_UP_STAND),
-        bakeSprite(PLAYER_UP_WALK),
-        bakeSprite(PLAYER_UP_WALK, { flip: true }),
+        bakeSprite(PLAYER_UP_WALK_A),
+        bakeSprite(PLAYER_UP_WALK_B),
       ],
       left: [
         bakeSprite(PLAYER_SIDE_STAND),
-        bakeSprite(PLAYER_SIDE_WALK),
-        bakeSprite(PLAYER_SIDE_WALK),
+        bakeSprite(PLAYER_SIDE_WALK_A),
+        bakeSprite(PLAYER_SIDE_WALK_B),
       ],
       right: [
-        bakeSprite(PLAYER_SIDE_STAND, { flip: true }),
-        bakeSprite(PLAYER_SIDE_WALK, { flip: true }),
-        bakeSprite(PLAYER_SIDE_WALK, { flip: true }),
+        bakeSprite(PLAYER_SIDE_STAND, flip),
+        bakeSprite(PLAYER_SIDE_WALK_A, flip),
+        bakeSprite(PLAYER_SIDE_WALK_B, flip),
       ],
     };
     (Object.keys(defaults) as Direction[]).forEach((direction) => {

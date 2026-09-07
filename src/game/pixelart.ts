@@ -5,13 +5,21 @@
 export const TILE = 16;
 
 export const PALETTE: Record<string, string> = {
-  k: "#1a1c2c", // contorno
-  r: "#d83a3a", // vermelho (caixa de correio)
-  s: "#e0a96d", // pele
-  h: "#2e2018", // cabelo e barba
-  b: "#2b4fa3", // calça
-  e: "#30343f", // sapato
-  w: "#e8e8ee", // jaqueta clara
+  k: "#1a1c2c", // contorno / olhos
+  s: "#d49a6c", // pele
+  S: "#b57b50", // pele sombra
+  h: "#5a3520", // cabelo castanho
+  H: "#7d4d2e", // cabelo com luz
+  f: "#2c1a10", // barba
+  L: "#d6ecf7", // lente dos óculos
+  m: "#353a48", // armação dos óculos
+  w: "#f4f4f8", // branco (camisa, brilho, detalhe do correio)
+  r: "#d83a3a", // vermelho (gravata, caixa de correio)
+  j: "#3558a8", // paletó azul
+  J: "#264080", // paletó sombra
+  p: "#3f4353", // calça escura
+  P: "#2c2f3b", // calça sombra
+  e: "#1f2129", // sapato
   g: "#2e7d32", // verde escuro (copa)
   G: "#4caf50", // verde claro (copa)
   t: "#6d4c2f", // tronco
@@ -23,173 +31,254 @@ export const PALETTE: Record<string, string> = {
 
 export type Sprite = string[];
 
+const EMPTY_ROW = "................";
+
 const norm = (rows: string[]): Sprite =>
-  rows.map((r) => (r + "................").slice(0, 16));
+  rows.map((r) => (r + EMPTY_ROW).slice(0, 16));
 
 // ---------------------------------------------------------------------------
-// AVATAR PADRÃO (16x24): sem boné, cabelo escuro, óculos e barba
-export const PLAYER_DOWN_STAND: Sprite = norm([
-  "................",
-  ".....kkkkkk.....",
-  "....khhhhhhk....",
+// AVATAR PADRÃO (16x28) em estilo GBA (Pokémon FireRed/Emerald) com proporção
+// mais esguia: cabeça de 10px, tronco de 8px com braços destacados, pernas longas,
+// contorno escuro, 2 tons por cor e 3 frames por direção.
+// Cada frame = cabeça (12 linhas, a última é o pescoço) + corpo (15 linhas).
+// Nos passos a cabeça desce 1px ("bob"), o tronco perde uma linha e uma perna fica
+// no ar, como nos charsets originais do GBA.
+
+export const PLAYER_FRAME_HEIGHT = 28;
+/** Linha do corpo removida nos frames de passo para compensar o "bob" da cabeça. */
+const BOB_ROW = 3;
+
+// Cabeça (12 linhas, 10px de largura): topete castanho, orelhas à mostra, óculos de armação grossa, barba aparada e pescoço
+const PLAYER_HEAD_DOWN: Sprite = [
+  ".....kkkk.......",
+  "....kHHhhkk.....",
+  "...kHHhhhhhk....",
   "...khhhhhhhhk...",
-  "...khhhhhhhhk...",
-  "...khsssssshk...",
-  "...kkwwkkwwkk...",
+  "...khhhhssshk...",
+  "..ksmmmssmmmsk..",
+  "..ksmLkmmkLmsk..",
   "...kssssssssk...",
-  "...khsssssshk...",
-  "...khhsssshhk...",
+  "...kfsffffsfk...",
+  "...kfffSSfffk...",
+  "....kffffffk....",
+  "......kssk......",
+];
+
+// Costas: cabelo curto, orelhas e nuca
+const PLAYER_HEAD_UP: Sprite = [
+  ".....kkkk.......",
+  "....kHHhhkk.....",
+  "...kHHhhhhhk....",
   "...khhhhhhhhk...",
-  "....khhhhhhk....",
-  ".....kssssk.....",
-  "...kkwwwwwwkk...",
-  "..kwwwwwwwwwwk..",
-  "..kwwwwkkwwwwk..",
-  "..kwwwwkkwwwwk..",
-  "..kswwwkkwwwsk..",
-  "...kwwwwwwwwk...",
-  "....kbbbbbbk....",
-  "....kbbbbbbk....",
-  "....kbb..bbk....",
+  "...khhhhhhhhk...",
+  "..kshhhhhhhhsk..",
+  "..kshhhhhhhhsk..",
+  "...khhhhhhhhk...",
+  "...kshhhhhhsk...",
+  "...kSshhhhsSk...",
+  "....kSssssSk....",
+  "......kssk......",
+];
+
+// Perfil olhando para a ESQUERDA (a direita é o flip horizontal)
+const PLAYER_HEAD_SIDE: Sprite = [
+  "....kkkkk.......",
+  "...kHHhhhkk.....",
+  "...kHhhhhhhhk...",
+  "...khhhhhhhhk...",
+  "...kshhhhhhhk...",
+  "...kmmmsSshhk...",
+  "...kLkmmSshhk...",
+  "..ksssssSshhk...",
+  "...kfsfffsSSk...",
+  "...kffffffSSk...",
+  "....kfffffSk....",
+  ".......kssk.....",
+];
+
+// Corpo (15 linhas): paletó azul com braços destacados, camisa branca, gravata vermelha e pernas longas
+const PLAYER_BODY_DOWN_STAND: Sprite = [
+  "...kkjjwwjjkk...",
+  "..kjkjwrrwjkjk..",
+  "..kjkjwrrwjkjk..",
+  "..kJkjjrrjjkJk..",
+  "..kJkjjrrjjkJk..",
+  "..kskJjjjjJksk..",
+  "....kJJJJJJk....",
+  "....kppppppk....",
+  "....kppkkppk....",
+  "....kppkkppk....",
+  "....kppkkppk....",
+  "....kPpkkpPk....",
+  "....kPpkkpPk....",
   "....kee..eek....",
   "................",
-]);
+];
 
-export const PLAYER_DOWN_WALK: Sprite = norm([
+const PLAYER_BODY_DOWN_WALK_A: Sprite = [
+  "...kkjjwwjjkk...",
+  "..kjkjwrrwjkjk..",
+  "..kjkjwrrwjkjk..",
+  "..kJkjjrrjjkJk..",
+  "..kskjjrrjjkJk..",
+  "...kkJjjjjJksk..",
+  "....kJJJJJJk....",
+  "....kppppppk....",
+  "....kppkkppk....",
+  "....kppkkppk....",
+  "....kppkkppk....",
+  "....kPpkkeek....",
+  "....kPpk........",
+  "....kee.........",
   "................",
-  ".....kkkkkk.....",
-  "....khhhhhhk....",
-  "...khhhhhhhhk...",
-  "...khhhhhhhhk...",
-  "...khsssssshk...",
-  "...kkwwkkwwkk...",
-  "...kssssssssk...",
-  "...khsssssshk...",
-  "...khhsssshhk...",
-  "...khhhhhhhhk...",
-  "....khhhhhhk....",
-  ".....kssssk.....",
-  "...kkwwwwwwkk...",
-  "..kwwwwwwwwwwk..",
-  "..kwwwwkkwwwwk..",
-  "..kwwwwkkwwwwk..",
-  "..kswwwkkwwwsk..",
-  "...kwwwwwwwwk...",
-  "....kbbbbbbk....",
-  "....kbbbbbbk....",
-  ".....kbb.bbk....",
-  ".....kee.eek....",
-  "................",
-]);
+];
 
-export const PLAYER_UP_STAND: Sprite = norm([
+const PLAYER_BODY_DOWN_WALK_B: Sprite = [
+  "...kkjjwwjjkk...",
+  "..kjkjwrrwjkjk..",
+  "..kjkjwrrwjkjk..",
+  "..kJkjjrrjjkJk..",
+  "..kJkjjrrjjksk..",
+  "..kskJjjjjJkk...",
+  "....kJJJJJJk....",
+  "....kppppppk....",
+  "....kppkkppk....",
+  "....kppkkppk....",
+  "....kppkkppk....",
+  "....keekkpPk....",
+  "........kpPk....",
+  ".........eek....",
   "................",
-  ".....kkkkkk.....",
-  "....khhhhhhk....",
-  "...khhhhhhhhk...",
-  "...khhhhhhhhk...",
-  "...khhhhhhhhk...",
-  "...khhhhhhhhk...",
-  "...khhhhhhhhk...",
-  "...khhhhhhhhk...",
-  "...khhhhhhhhk...",
-  "...khhhhhhhhk...",
-  "....khhhhhhk....",
-  ".....kssssk.....",
-  "...kkwwwwwwkk...",
-  "..kwwwwwwwwwwk..",
-  "..kwwwwwwwwwwk..",
-  "..kwwwwwwwwwwk..",
-  "..kswwwwwwwwsk..",
-  "...kwwwwwwwwk...",
-  "....kbbbbbbk....",
-  "....kbbbbbbk....",
-  "....kbb..bbk....",
+];
+
+const PLAYER_BODY_UP_STAND: Sprite = [
+  "...kkjjjjjjkk...",
+  "..kjkjjjJjjkjk..",
+  "..kjkjjjJjjkjk..",
+  "..kJkjjjJjjkJk..",
+  "..kJkjjjJjjkJk..",
+  "..kskJjjJjJksk..",
+  "....kJJJJJJk....",
+  "....kppppppk....",
+  "....kppkkppk....",
+  "....kppkkppk....",
+  "....kppkkppk....",
+  "....kPpkkpPk....",
+  "....kPpkkpPk....",
   "....kee..eek....",
   "................",
-]);
+];
 
-export const PLAYER_UP_WALK: Sprite = norm([
+const PLAYER_BODY_UP_WALK_A: Sprite = [
+  "...kkjjjjjjkk...",
+  "..kjkjjjJjjkjk..",
+  "..kjkjjjJjjkjk..",
+  "..kJkjjjJjjkJk..",
+  "..kskjjjJjjkJk..",
+  "...kkJjjJjJksk..",
+  "....kJJJJJJk....",
+  "....kppppppk....",
+  "....kppkkppk....",
+  "....kppkkppk....",
+  "....kppkkppk....",
+  "....kPpkkeek....",
+  "....kPpk........",
+  "....kee.........",
   "................",
-  ".....kkkkkk.....",
-  "....khhhhhhk....",
-  "...khhhhhhhhk...",
-  "...khhhhhhhhk...",
-  "...khhhhhhhhk...",
-  "...khhhhhhhhk...",
-  "...khhhhhhhhk...",
-  "...khhhhhhhhk...",
-  "...khhhhhhhhk...",
-  "...khhhhhhhhk...",
-  "....khhhhhhk....",
-  ".....kssssk.....",
-  "...kkwwwwwwkk...",
-  "..kwwwwwwwwwwk..",
-  "..kwwwwwwwwwwk..",
-  "..kwwwwwwwwwwk..",
-  "..kswwwwwwwwsk..",
-  "...kwwwwwwwwk...",
-  "....kbbbbbbk....",
-  "....kbbbbbbk....",
-  ".....kbb.bbk....",
-  ".....kee.eek....",
+];
+
+const PLAYER_BODY_UP_WALK_B: Sprite = [
+  "...kkjjjjjjkk...",
+  "..kjkjjjJjjkjk..",
+  "..kjkjjjJjjkjk..",
+  "..kJkjjjJjjkJk..",
+  "..kJkjjjJjjksk..",
+  "..kskJjjJjJkk...",
+  "....kJJJJJJk....",
+  "....kppppppk....",
+  "....kppkkppk....",
+  "....kppkkppk....",
+  "....kppkkppk....",
+  "....keekkpPk....",
+  "........kpPk....",
+  ".........eek....",
   "................",
-]);
+];
+
+const PLAYER_BODY_SIDE_STAND: Sprite = [
+  ".....kjjjjjk....",
+  "....kwjJJjjjk...",
+  "....kjjJJjjjk...",
+  "....kjjJJjjjk...",
+  "....kjjJJjjjk...",
+  "....kjjsSjjjk...",
+  ".....kJJJJJk....",
+  ".....kppppk.....",
+  ".....kppppk.....",
+  ".....kppppk.....",
+  ".....kppppk.....",
+  ".....kPpppk.....",
+  ".....kPpppk.....",
+  "....keeeek......",
+  "................",
+];
+
+const PLAYER_BODY_SIDE_WALK_A: Sprite = [
+  ".....kjjjjjk....",
+  "....kwJJjjjjk...",
+  "....kjJJjjjjk...",
+  "....kjJJjjjjk...",
+  "....kjsSjjjjk...",
+  "....kjjjjjjjk...",
+  ".....kJJJJJk....",
+  ".....kppppk.....",
+  "....kpppppPk....",
+  "....kppkkPPk....",
+  "...kppk..kPPk...",
+  "...kppk..kPPk...",
+  "...kppk..keek...",
+  "..keeek.........",
+  "................",
+];
+
+const PLAYER_BODY_SIDE_WALK_B: Sprite = [
+  ".....kjjjjjk....",
+  "....kwjjjJJjk...",
+  "....kjjjjJJjk...",
+  "....kjjjjJJjk...",
+  "....kjjjjsSjk...",
+  "....kjjjjjjjk...",
+  ".....kJJJJJk....",
+  ".....kppppk.....",
+  "....kPPpppk.....",
+  "....kPPkkppk....",
+  "...kPPk..kppk...",
+  "...kPPk..kppk...",
+  "...keek..kppk...",
+  "........keeeek..",
+  "................",
+];
+
+/** Empilha cabeça + corpo num frame de PLAYER_FRAME_HEIGHT linhas. bob=1 = frame de passo. */
+function composeFrame(head: Sprite, body: Sprite, bob = 0): Sprite {
+  const trunk = bob ? [...body.slice(0, BOB_ROW), ...body.slice(BOB_ROW + 1)] : body;
+  const rows = [...Array<string>(1 + bob).fill(EMPTY_ROW), ...head, ...trunk];
+  while (rows.length < PLAYER_FRAME_HEIGHT) rows.push(EMPTY_ROW);
+  return norm(rows.slice(0, PLAYER_FRAME_HEIGHT));
+}
+
+export const PLAYER_DOWN_STAND = composeFrame(PLAYER_HEAD_DOWN, PLAYER_BODY_DOWN_STAND);
+export const PLAYER_DOWN_WALK_A = composeFrame(PLAYER_HEAD_DOWN, PLAYER_BODY_DOWN_WALK_A, 1);
+export const PLAYER_DOWN_WALK_B = composeFrame(PLAYER_HEAD_DOWN, PLAYER_BODY_DOWN_WALK_B, 1);
+
+export const PLAYER_UP_STAND = composeFrame(PLAYER_HEAD_UP, PLAYER_BODY_UP_STAND);
+export const PLAYER_UP_WALK_A = composeFrame(PLAYER_HEAD_UP, PLAYER_BODY_UP_WALK_A, 1);
+export const PLAYER_UP_WALK_B = composeFrame(PLAYER_HEAD_UP, PLAYER_BODY_UP_WALK_B, 1);
 
 // olhando para a ESQUERDA (a direita é o flip horizontal)
-export const PLAYER_SIDE_STAND: Sprite = norm([
-  "................",
-  ".....kkkkkk.....",
-  "....khhhhhhk....",
-  "...khhhhhhhhk...",
-  "...khhhhhhhhk...",
-  "...ksshhhhhhk...",
-  "...kkwwkhhhhk...",
-  "...kssshhhhhk...",
-  "...khhhhhhhhk...",
-  "...khhhhhhhhk...",
-  "....khhhhhhk....",
-  ".....khhhhk.....",
-  ".....kssssk.....",
-  "....kwwwwwwk....",
-  "...kwwwwwwwwk...",
-  "...kwwwwwwwwk...",
-  "...kwwwwwwwwk...",
-  "....kswwwwsk....",
-  "....kwwwwwwk....",
-  "....kbbbbbbk....",
-  "....kbbbbbbk....",
-  ".....kbbbbk.....",
-  "....keeek.......",
-  "................",
-]);
-
-export const PLAYER_SIDE_WALK: Sprite = norm([
-  "................",
-  ".....kkkkkk.....",
-  "....khhhhhhk....",
-  "...khhhhhhhhk...",
-  "...khhhhhhhhk...",
-  "...ksshhhhhhk...",
-  "...kkwwkhhhhk...",
-  "...kssshhhhhk...",
-  "...khhhhhhhhk...",
-  "...khhhhhhhhk...",
-  "....khhhhhhk....",
-  ".....khhhhk.....",
-  ".....kssssk.....",
-  "....kwwwwwwk....",
-  "...kwwwwwwwwk...",
-  "...kwwwwwwwwk...",
-  "...kwwwwwwwwk...",
-  "....kswwwwsk....",
-  "....kwwwwwwk....",
-  "....kbbbbbbk....",
-  "...kbb..kbbk....",
-  "...kbb...bbk....",
-  "...kee....eek...",
-  "................",
-]);
+export const PLAYER_SIDE_STAND = composeFrame(PLAYER_HEAD_SIDE, PLAYER_BODY_SIDE_STAND);
+export const PLAYER_SIDE_WALK_A = composeFrame(PLAYER_HEAD_SIDE, PLAYER_BODY_SIDE_WALK_A, 1);
+export const PLAYER_SIDE_WALK_B = composeFrame(PLAYER_HEAD_SIDE, PLAYER_BODY_SIDE_WALK_B, 1);
 
 // ---------------------------------------------------------------------------
 // OBJETOS DO CENÁRIO
