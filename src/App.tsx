@@ -8,11 +8,12 @@ import StackMobile from "../src/assets/stack-mobile.svg";
 import PhotoContact from "../src/assets/photo-contact.jpeg";
 import Curriculum from "./data/curriculo do Wagner.pdf";
 
-import { useState } from "react";
+import { lazy, Suspense, useState } from "react";
 
 import { Project } from "./components/Project";
 import { Skills } from "./components/Skills";
-import { GameMode } from "./game/GameMode";
+// Three.js é pesado: o modo game só é baixado quando o jogador abre
+const GameMode = lazy(() => import("./game/GameMode").then((m) => ({ default: m.GameMode })));
 
 const NAV_LINKS = [
   { href: "#about", label: "SOBRE" },
@@ -39,7 +40,17 @@ function App() {
   const [gameMode, setGameMode] = useState(false);
 
   if (gameMode) {
-    return <GameMode onExit={() => setGameMode(false)} />;
+    return (
+      <Suspense
+        fallback={
+          <div className="fixed inset-0 z-[1000] flex items-center justify-center bg-[#1a1c2c] text-white font-michroma text-sm">
+            Carregando o estúdio…
+          </div>
+        }
+      >
+        <GameMode onExit={() => setGameMode(false)} />
+      </Suspense>
+    );
   }
 
   return (

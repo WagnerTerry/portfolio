@@ -1,234 +1,258 @@
-import { useEffect, useRef, useState } from "react";
-import type Phaser from "phaser";
+// Modo game: o "Estúdio do Wagner" em 3D (Three.js via React Three Fiber). O personagem
+// anda pela sala em 4 direções e usa a bancada (bio e currículo), o servidor (GitHub),
+// o painel (LinkedIn) e a máquina de café (contato).
 
-import { Interaction } from "./world";
+import { Component, ReactNode, useCallback, useEffect, useMemo, useRef, useState } from "react";
+
+import "./game.css";
+import { Card, CARDS, StationId, STATIONS } from "./content";
+import { bindKeyboard, createInput } from "./input";
+import { PlayerState } from "./studio/Player";
+import { Scene } from "./studio/Scene";
 
 type GameModeProps = {
   onExit: () => void;
 };
 
-type Direction = "down" | "up" | "left" | "right";
+const INTERACT_KEYS = [" ", "Enter", "e", "E"];
 
 export function GameMode({ onExit }: GameModeProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const gameRef = useRef<Phaser.Game | null>(null);
+  const input = useMemo(() => createInput(), []);
   const [started, setStarted] = useState(false);
-  const [dialog, setDialog] = useState<Interaction | null>(null);
-  const [typedCount, setTypedCount] = useState(0);
+  const [cardId, setCardId] = useState<StationId | null>(null);
+  const [station, setStation] = useState<StationId | null>(null);
+  const paused = !started || cardId !== null;
 
-  const startedRef = useRef(false);
+  useEffect(() => {
+    input.paused = paused;
+  }, [input, paused]);
+
+  // refs para o listener de teclado enxergar o estado atual sem re-registrar
+  const startedRef = useRef(started);
   startedRef.current = started;
-  const dialogRef = useRef<Interaction | null>(null);
-  dialogRef.current = dialog;
+  const cardRef = useRef(cardId);
+  cardRef.current = cardId;
+  const stationRef = useRef(station);
+  stationRef.current = station;
   const onExitRef = useRef(onExit);
   onExitRef.current = onExit;
 
-  const dialogText = dialog ? dialog.lines.join("\n") : "";
-  const typingDone = typedCount >= dialogText.length;
-
-  // O jogo fica pausado enquanto a tela de start ou um diálogo estiverem abertos
-  const syncPaused = () => {
-    gameRef.current?.registry.set(
-      "dialogOpen",
-      !startedRef.current || dialogRef.current !== null
-    );
+  const use = () => {
+    if (stationRef.current) setCardId(stationRef.current);
   };
 
-  const closeDialog = () => {
-    setDialog(null);
-    dialogRef.current = null;
-    syncPaused();
-  };
+  useEffect(() => bindKeyboard(input), [input]);
 
-  const start = () => {
-    setStarted(true);
-    startedRef.current = true;
-    syncPaused();
-  };
-
-  // efeito máquina de escrever do diálogo
+  // gancho para testes manuais no console, só em desenvolvimento
   useEffect(() => {
-    setTypedCount(0);
-    if (!dialog) return;
-    const total = dialog.lines.join("\n").length;
-    const interval = setInterval(() => {
-      setTypedCount((count) => {
-        if (count >= total) {
-          clearInterval(interval);
-          return count;
-        }
-        return count + 1;
-      });
-    }, 18);
-    return () => clearInterval(interval);
-  }, [dialog]);
+    if (!import.meta.env.DEV) return;
+    (window as unknown as { __studio?: unknown }).__studio = { input, use, setCardId };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [input]);
 
   useEffect(() => {
-    let disposed = false;
-
-    // Phaser é pesado: carrega sob demanda, só quando o modo game abre
-    import("./phaser/createGame").then(({ createGame }) => {
-      if (disposed || !containerRef.current) return;
-      const game = createGame(containerRef.current);
-      gameRef.current = game;
-      game.registry.set("dialogOpen", true); // pausado até o PRESS START
-      game.events.on("dialog", (interaction: Interaction) => {
-        setDialog(interaction);
-        dialogRef.current = interaction;
-        syncPaused();
-      });
-      if (import.meta.env.DEV) {
-        (window as unknown as { __game?: Phaser.Game }).__game = game;
-      }
-    });
-
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
-        if (dialogRef.current) closeDialog();
+        if (cardRef.current) setCardId(null);
         else onExitRef.current();
         return;
       }
-      if (!startedRef.current && [" ", "Enter", "e", "E"].includes(event.key)) {
-        start();
-        return;
-      }
-      // fecha o diálogo com as mesmas teclas de interação
-      if (dialogRef.current && [" ", "Enter", "e", "E"].includes(event.key) && !event.repeat) {
-        event.preventDefault();
-        closeDialog();
-      }
+      if (!INTERACT_KEYS.includes(event.key) || event.repeat) return;
+      event.preventDefault();
+      if (!startedRef.current) setStarted(true);
+      else if (cardRef.current) setCardId(null);
+      else use();
     };
     window.addEventListener("keydown", onKeyDown);
-
-    return () => {
-      disposed = true;
-      window.removeEventListener("keydown", onKeyDown);
-      gameRef.current?.destroy(true);
-      gameRef.current = null;
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    return () => window.removeEventListener("keydown", onKeyDown);
   }, []);
 
-  const pressDirection = (direction: Direction, pressed: boolean) => {
-    gameRef.current?.events.emit("vkey", direction, pressed);
-  };
+  const onStateChange = useCallback((state: PlayerState) => setStation(state.station), []);
+
+  const card = cardId ? CARDS[cardId] : null;
+  const near = station ? STATIONS.find((s) => s.id === station) ?? null : null;
 
   return (
-    <div className="fixed inset-0 z-[1000] flex flex-col items-center justify-center gap-3 bg-game-dark font-press-start">
-      <div
-        className="relative aspect-[4/3] border-[6px] border-game-purple outline outline-[4px] outline-black shadow-[0_0_40px_rgba(0,0,0,0.8)] bg-black overflow-hidden"
-        style={{ width: 'min(92vw, calc(76vh * 4 / 3))' }}
-      >
-        <div className="game-phaser absolute inset-0" ref={containerRef} />
-
-        {!started && (
-          <div
-            className="absolute inset-0 flex flex-col items-center justify-center gap-5 text-center bg-[rgba(26,28,44,0.92)] text-white cursor-pointer p-4 z-10"
-            onClick={start}
-          >
-            <h1 className="text-[clamp(18px,4vw,32px)] text-game-yellow [text-shadow:3px_3px_0_#d83a3a] m-0">
-              WAGNER QUEST
-            </h1>
-            <p className="text-[clamp(8px,1.6vw,12px)] m-0">Um portfólio jogável</p>
-            <span className="text-[clamp(10px,2vw,16px)] animate-game-blink">PRESS START</span>
-            <small className="text-[clamp(7px,1.2vw,9px)] text-game-cyan leading-[1.8]">
-              Setas/WASD para andar • E, Espaço ou Enter para interagir •
-              Entre nas portas para visitar GitHub e LinkedIn
-            </small>
-          </div>
-        )}
-
-        {dialog && (
-          <div className="absolute left-[3%] right-[3%] bottom-[3%] bg-[#f8f8f8] border-[4px] border-game-dark shadow-[0_0_0_3px_#f8f8f8,4px_6px_0_3px_rgba(0,0,0,0.5)] px-4 py-3 text-game-dark z-10">
-            <strong className="block text-[clamp(9px,1.6vw,13px)] text-game-red mb-2">
-              {dialog.title}
-            </strong>
-            <p className="m-0 text-[clamp(8px,1.4vw,11px)] leading-[1.9] whitespace-pre-line min-h-[3em]">
-              {dialogText.slice(0, typedCount)}
-              {!typingDone && <span className="animate-game-cursor">▌</span>}
-            </p>
-            {typingDone && (
-              <div className="flex flex-wrap gap-[10px] mt-[10px]">
-                {dialog.links?.map((link) => (
-                  <a
-                    key={link.url}
-                    href={link.url}
-                    target="_blank"
-                    rel="noreferrer"
-                    download={link.download}
-                    className="font-inherit text-[clamp(8px,1.3vw,10px)] no-underline text-white bg-game-blue border-[3px] border-game-dark shadow-[2px_2px_0_#1a1c2c] px-[10px] py-[8px] cursor-pointer active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
-                  >
-                    {link.label} ▶
-                  </a>
-                ))}
-                <button
-                  onClick={closeDialog}
-                  className="font-inherit text-[clamp(8px,1.3vw,10px)] text-white bg-game-brown border-[3px] border-game-dark shadow-[2px_2px_0_#1a1c2c] px-[10px] py-[8px] cursor-pointer active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
-                >
-                  Fechar ✕
-                </button>
-              </div>
-            )}
-          </div>
-        )}
+    <div className="fixed inset-0 z-[1000] overflow-hidden bg-[#1a1c2c] font-sans text-base text-slate-800 select-none">
+      <div className="absolute inset-0 touch-none">
+        <SceneErrorBoundary>
+          <Scene input={input} activeStation={station} onStateChange={onStateChange} />
+        </SceneErrorBoundary>
       </div>
 
+      {/* HUD */}
+      <div className="absolute top-3 left-3 sm:top-5 sm:left-5 z-10 rounded-full bg-black/40 backdrop-blur px-4 py-2 text-white font-michroma text-[10px] sm:text-xs tracking-wide">
+        Estúdio do Wagner
+      </div>
       <button
-        className="absolute top-4 right-4 font-inherit text-[10px] text-white bg-game-red border-[3px] border-black shadow-[3px_3px_0_#000] px-[14px] py-[10px] cursor-pointer active:translate-x-[2px] active:translate-y-[2px] active:shadow-[1px_1px_0_#000]"
         onClick={onExit}
+        className="absolute top-3 right-3 sm:top-5 sm:right-5 z-10 rounded-full bg-black/40 backdrop-blur px-4 py-2 text-white text-sm font-semibold cursor-pointer hover:bg-black/60"
       >
         ✕ Sair
       </button>
 
-      <div className="text-game-cyan text-[9px] text-center touch:hidden">
-        Setas/WASD: andar • E/Espaço: interagir • Esc: sair
+      {near && !paused && (
+        <div className="door-prompt touch:hidden absolute bottom-14 inset-x-0 z-10 flex justify-center pointer-events-none">
+          <span className="rounded-full bg-white/95 text-slate-800 font-semibold px-5 py-2 shadow-lg">
+            ⏎ {near.prompt}
+          </span>
+        </div>
+      )}
+
+      <div className="touch:hidden absolute bottom-4 inset-x-0 z-10 px-4 text-center text-white/80 text-sm drop-shadow">
+        Setas ou WASD para andar · clique no chão para caminhar até lá · Enter para usar · Esc para sair
       </div>
 
-      <div className="hidden touch:flex touch:items-center touch:justify-between touch:w-[min(92vw,520px)] touch:select-none">
-        <div
-          className="grid"
-          style={{ gridTemplateColumns: 'repeat(3, 48px)', gridTemplateRows: 'repeat(3, 48px)' }}
-        >
-          {(
-            [
-              ["up", "▲"],
-              ["left", "◀"],
-              ["right", "▶"],
-              ["down", "▼"],
-            ] as [Direction, string][]
-          ).map(([direction, arrow]) => (
-            <button
-              key={direction}
-              className={`font-inherit text-[14px] text-white bg-game-purple border-[3px] border-black shadow-[3px_3px_0_#000] cursor-pointer touch-none active:bg-game-purple-light ${
-                direction === 'up' ? '[grid-area:1/2]' :
-                direction === 'left' ? '[grid-area:2/1]' :
-                direction === 'right' ? '[grid-area:2/3]' :
-                '[grid-area:3/2]'
-              }`}
-              onPointerDown={(e) => {
-                e.preventDefault();
-                pressDirection(direction, true);
-              }}
-              onPointerUp={() => pressDirection(direction, false)}
-              onPointerLeave={() => pressDirection(direction, false)}
-              onContextMenu={(e) => e.preventDefault()}
-            >
-              {arrow}
-            </button>
-          ))}
+      <div className="hidden touch:flex absolute bottom-5 inset-x-5 z-10 items-end justify-between">
+        <div className="grid grid-cols-3 grid-rows-3 gap-1">
+          <div className="col-start-2 row-start-1">
+            <PadButton onHold={(down) => (input.held.up = down)}>▲</PadButton>
+          </div>
+          <div className="col-start-1 row-start-2">
+            <PadButton onHold={(down) => (input.held.left = down)}>◀</PadButton>
+          </div>
+          <div className="col-start-3 row-start-2">
+            <PadButton onHold={(down) => (input.held.right = down)}>▶</PadButton>
+          </div>
+          <div className="col-start-2 row-start-3">
+            <PadButton onHold={(down) => (input.held.down = down)}>▼</PadButton>
+          </div>
         </div>
         <button
-          className="w-16 h-16 rounded-full font-inherit text-[18px] text-white bg-game-red border-[3px] border-black shadow-[3px_3px_0_#000] cursor-pointer touch-none active:bg-game-purple-light"
-          onPointerDown={(e) => {
-            e.preventDefault();
-            if (!startedRef.current) start();
-            else if (dialogRef.current) closeDialog();
-            else gameRef.current?.events.emit("vinteract");
+          disabled={!near}
+          onPointerDown={(event) => {
+            event.preventDefault();
+            use();
           }}
+          className="h-16 rounded-full px-7 bg-[#5d275d] text-white text-base font-semibold shadow-lg touch-none disabled:opacity-40 active:bg-[#7a3a7a]"
         >
-          A
+          {near ? near.prompt : "Usar"}
         </button>
       </div>
+
+      {!started && <StartCard onStart={() => setStarted(true)} />}
+      {card && <PlaceCard card={card} onClose={() => setCardId(null)} />}
     </div>
+  );
+}
+
+/** Se o WebGL falhar (driver, aceleração desligada), mostra o erro em vez de uma tela vazia. */
+class SceneErrorBoundary extends Component<{ children: ReactNode }, { error: Error | null }> {
+  state = { error: null as Error | null };
+
+  static getDerivedStateFromError(error: Error) {
+    return { error };
+  }
+
+  componentDidCatch(error: Error) {
+    console.error("Falha ao iniciar a cena 3D:", error);
+  }
+
+  render() {
+    if (!this.state.error) return this.props.children;
+    return (
+      <div className="absolute inset-0 flex items-center justify-center p-6 text-center text-white">
+        <div className="max-w-md">
+          <p className="m-0 font-michroma text-sm">Não consegui iniciar a cena 3D</p>
+          <p className="m-0 mt-3 text-white/80 text-sm leading-relaxed">
+            O navegador não conseguiu criar o contexto WebGL. Verifique se a aceleração de hardware
+            está ligada ou tente outro navegador.
+          </p>
+          <p className="m-0 mt-3 text-white/50 text-xs break-words">{this.state.error.message}</p>
+        </div>
+      </div>
+    );
+  }
+}
+
+function PadButton(props: { onHold: (down: boolean) => void; children: ReactNode }) {
+  return (
+    <button
+      className="w-14 h-14 rounded-2xl bg-white/90 text-slate-800 text-xl font-bold shadow-lg touch-none active:bg-white active:scale-95"
+      onPointerDown={(event) => {
+        event.preventDefault();
+        props.onHold(true);
+      }}
+      onPointerUp={() => props.onHold(false)}
+      onPointerLeave={() => props.onHold(false)}
+      onPointerCancel={() => props.onHold(false)}
+      onContextMenu={(event) => event.preventDefault()}
+    >
+      {props.children}
+    </button>
+  );
+}
+
+function Modal(props: { children: ReactNode; onBackdrop?: () => void }) {
+  return (
+    <div
+      className="absolute inset-0 z-20 flex items-center justify-center p-4 bg-black/40 backdrop-blur-[2px]"
+      onClick={props.onBackdrop}
+    >
+      <div
+        className="w-full max-w-md rounded-3xl bg-white/95 text-slate-800 shadow-2xl p-6 sm:p-8"
+        onClick={(event) => event.stopPropagation()}
+      >
+        {props.children}
+      </div>
+    </div>
+  );
+}
+
+function StartCard(props: { onStart: () => void }) {
+  return (
+    <Modal>
+      <p className="m-0 font-michroma text-[10px] sm:text-xs tracking-[0.3em] text-[#5d275d]">MODO GAME</p>
+      <h1 className="m-0 mt-2 font-michroma text-xl sm:text-2xl">Estúdio do Wagner</h1>
+      <p className="m-0 mt-4 text-slate-600 leading-relaxed">
+        Bem-vindo ao meu estúdio! Ande pela sala e chegue perto da bancada, do servidor, do painel e
+        da máquina de café para ver o que cada um guarda.
+      </p>
+      <ul className="m-0 mt-4 p-0 list-none space-y-1 text-sm sm:text-base text-slate-600 leading-relaxed">
+        <li className="touch:hidden">Setas ou WASD para andar, ou clique no chão e nos móveis</li>
+        <li className="touch:hidden">Enter, Espaço ou E para usar · Esc para sair</li>
+        <li className="hidden touch:list-item">Toque no chão ou segure o direcional para andar</li>
+        <li className="hidden touch:list-item">Perto de um objeto, toque em Usar</li>
+      </ul>
+      <button
+        onClick={props.onStart}
+        className="mt-6 rounded-full bg-[#5d275d] hover:bg-[#7a3a7a] text-white font-semibold px-6 py-3 cursor-pointer"
+      >
+        Entrar no estúdio ▶
+      </button>
+    </Modal>
+  );
+}
+
+function PlaceCard(props: { card: Card; onClose: () => void }) {
+  return (
+    <Modal onBackdrop={props.onClose}>
+      <h2 className="m-0 font-michroma text-lg sm:text-xl">{props.card.title}</h2>
+      {props.card.text.map((paragraph) => (
+        <p key={paragraph} className="m-0 mt-3 text-slate-600 leading-relaxed">
+          {paragraph}
+        </p>
+      ))}
+      <div className="mt-6 flex flex-wrap gap-3">
+        {props.card.links.map((link) => (
+          <a
+            key={link.url}
+            href={link.url}
+            target="_blank"
+            rel="noreferrer"
+            download={link.download}
+            className={`rounded-full px-5 py-3 text-white font-semibold no-underline ${link.color}`}
+          >
+            {link.label}
+          </a>
+        ))}
+        <button
+          onClick={props.onClose}
+          className="rounded-full px-5 py-3 bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold cursor-pointer"
+        >
+          Voltar
+        </button>
+      </div>
+    </Modal>
   );
 }

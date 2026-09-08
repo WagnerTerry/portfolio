@@ -40,10 +40,6 @@
   ::-webkit-scrollbar-thumb:hover {
     background: #00f5ff;
   }
-
-  .game-phaser canvas {
-    image-rendering: pixelated;
-  }
 }
 
 @layer components {

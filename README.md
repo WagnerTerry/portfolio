@@ -4,12 +4,8 @@ Um breve resumo sobre minha carreira
 
 ## Modo Game 🎮
 
-O botão "Modo Game" abre um portfólio jogável estilo Pokémon feito com [Phaser 3](https://phaser.io):
-ande pelo mapa, leia as placas, pise nos tiles roxos e entre nos prédios para conhecer
-projetos (prédio de software), skills e formação (universidade) e contato (laboratório).
-As portas roxas abrem GitHub, LinkedIn e o currículo.
-
-O mundo do jogo (mapas, tileset, personagem e fonte) é adaptado do site
-[arielroffe.quest](https://arielroffe.quest/), de Ariel Roffé
-([ariroffe/personal-website](https://github.com/ariroffe/personal-website), licença MIT —
-ver `public/game/LICENSE-ariroffe.txt`).
+O botão "Modo Game" abre o **Estúdio do Wagner**, um portfólio jogável em 3D feito com
+[Three.js](https://threejs.org) via React Three Fiber: uma sala low-poly onde o personagem anda em
+4 direções (setas/WASD, ou clique no chão) e usa a bancada (bio e currículo), o servidor (GitHub),
+o painel (LinkedIn) e a máquina de café (contato). O código fica em `src/game/` e é carregado sob
+demanda para não pesar no site.
