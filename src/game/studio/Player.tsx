@@ -1,41 +1,54 @@
-// Personagem em blocos (topete, óculos, barba, paletó e gravata) com movimento em
-// 4 direções, colisão com os móveis, destino por clique e animação de caminhada.
+// Personagem cartoon: cabeça grande com o rosto pintado em textura (óculos e
+// sorriso), cabelo curto em 3D e corpo arredondado em cápsulas com a camiseta
+// de violão pintada. Movimento em 4 direções, colisão com os móveis, destino por clique e
+// animação de caminhada.
 
-import { MutableRefObject, useRef } from "react";
+import { MutableRefObject, useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
 import { PLAYER, StationId, STATIONS } from "../content";
 import { InputState } from "../input";
 import { pointInRect, resolveMove } from "./collision";
+import { faceTexture, outfitTexture, SHIRT_COLOR } from "./textures";
 
 const C = {
-  skin: "#d49a6c",
-  skinShade: "#b57b50",
-  hair: "#5a3520",
-  beard: "#3a2416",
-  jacket: "#3558a8",
-  jacketDark: "#264080",
-  shirt: "#f4f4f8",
-  tie: "#d83a3a",
-  pants: "#3f4353",
-  shoes: "#1f2129",
-  frame: "#2f3340",
-  lens: "#dbeefa",
-  eye: "#1a1c2c",
+  skin: "#d9a274",
+  skinShade: "#bf8657",
+  hair: "#4a2c1a",
+  shirt: SHIRT_COLOR,
+  pants: "#2c3e6b",
+  shoes: "#eceff4",
 };
 
-/** Caixa centrada em `center` (o personagem é montado com o pivô de cada membro no grupo). */
-function Cube(props: {
-  size: [number, number, number];
+/** Cápsula centrada em `center`, com sombreamento facetado (low-poly). */
+function Capsule(props: {
+  radius: number;
+  length: number;
   center: [number, number, number];
   color: string;
   rotation?: [number, number, number];
 }) {
   return (
     <mesh position={props.center} rotation={props.rotation} castShadow receiveShadow>
-      <boxGeometry args={props.size} />
-      <meshStandardMaterial color={props.color} roughness={0.85} />
+      <capsuleGeometry args={[props.radius, props.length, 6, 14]} />
+      <meshStandardMaterial color={props.color} roughness={0.85} flatShading />
+    </mesh>
+  );
+}
+
+function Ball(props: {
+  radius: number;
+  center: [number, number, number];
+  color: string;
+  scale?: [number, number, number];
+  rotation?: [number, number, number];
+  flat?: boolean;
+}) {
+  return (
+    <mesh position={props.center} scale={props.scale} rotation={props.rotation} castShadow receiveShadow>
+      <sphereGeometry args={[props.radius, 20, 14]} />
+      <meshStandardMaterial color={props.color} roughness={0.85} flatShading={props.flat} />
     </mesh>
   );
 }
@@ -62,6 +75,8 @@ export function Player({ input, positionRef, onStateChange }: PlayerProps) {
   const legR = useRef<THREE.Group>(null);
   const armL = useRef<THREE.Group>(null);
   const armR = useRef<THREE.Group>(null);
+  const face = useMemo(() => faceTexture(), []);
+  const outfit = useMemo(() => outfitTexture(), []);
 
   const sim = useRef({
     x: PLAYER.start.x,
@@ -145,65 +160,63 @@ export function Player({ input, positionRef, onStateChange }: PlayerProps) {
   // o modelo olha para +z; o pivô de cada membro fica na junta (quadril/ombro)
   return (
     <group ref={root} position={[PLAYER.start.x, 0, PLAYER.start.z]} scale={0.85}>
-      {/* pernas */}
-      <group ref={legL} position={[-0.16, 0.78, 0]}>
-        <Cube size={[0.24, 0.7, 0.26]} center={[0, -0.35, 0]} color={C.pants} />
-        <Cube size={[0.26, 0.12, 0.36]} center={[0, -0.72, 0.05]} color={C.shoes} />
+      {/* pernas e sapatos */}
+      <group ref={legL} position={[-0.13, 0.62, 0]}>
+        <Capsule radius={0.1} length={0.25} center={[0, -0.25, 0]} color={C.pants} />
+        <Ball radius={0.13} center={[0, -0.55, 0.04]} scale={[1, 0.5, 1.4]} color={C.shoes} flat />
       </group>
-      <group ref={legR} position={[0.16, 0.78, 0]}>
-        <Cube size={[0.24, 0.7, 0.26]} center={[0, -0.35, 0]} color={C.pants} />
-        <Cube size={[0.26, 0.12, 0.36]} center={[0, -0.72, 0.05]} color={C.shoes} />
+      <group ref={legR} position={[0.13, 0.62, 0]}>
+        <Capsule radius={0.1} length={0.25} center={[0, -0.25, 0]} color={C.pants} />
+        <Ball radius={0.13} center={[0, -0.55, 0.04]} scale={[1, 0.5, 1.4]} color={C.shoes} flat />
       </group>
 
       <group ref={body}>
-        {/* tronco, camisa e gravata */}
-        <Cube size={[0.66, 0.72, 0.38]} center={[0, 1.14, 0]} color={C.jacket} />
-        <Cube size={[0.22, 0.36, 0.02]} center={[0, 1.32, 0.2]} color={C.shirt} />
-        <Cube size={[0.07, 0.34, 0.025]} center={[0, 1.22, 0.205]} color={C.tie} />
-        <Cube size={[0.1, 0.4, 0.015]} center={[-0.16, 1.3, 0.2]} color={C.jacketDark} />
-        <Cube size={[0.1, 0.4, 0.015]} center={[0.16, 1.3, 0.2]} color={C.jacketDark} />
+        {/* tronco: cilindro com a roupa pintada, ombros e barra arredondados */}
+        <mesh position={[0, 0.87, 0]} rotation={[0, Math.PI, 0]} castShadow receiveShadow>
+          <cylinderGeometry args={[0.27, 0.27, 0.5, 32, 1, true]} />
+          <meshStandardMaterial map={outfit} roughness={0.85} />
+        </mesh>
+        <mesh position={[0, 1.12, 0]} castShadow receiveShadow>
+          <sphereGeometry args={[0.27, 32, 16, 0, Math.PI * 2, 0, Math.PI / 2]} />
+          <meshStandardMaterial color={C.shirt} roughness={0.85} flatShading />
+        </mesh>
+        <mesh position={[0, 0.62, 0]} castShadow receiveShadow>
+          <sphereGeometry args={[0.27, 32, 16, 0, Math.PI * 2, Math.PI / 2, Math.PI / 2]} />
+          <meshStandardMaterial color={C.shirt} roughness={0.85} flatShading />
+        </mesh>
 
-        {/* braços */}
-        <group ref={armL} position={[-0.43, 1.44, 0]}>
-          <Cube size={[0.18, 0.66, 0.2]} center={[0, -0.33, 0]} color={C.jacket} />
-          <Cube size={[0.16, 0.14, 0.18]} center={[0, -0.72, 0]} color={C.skin} />
+        {/* braços e mãos */}
+        <group ref={armL} position={[-0.3, 1.1, 0]} rotation={[0, 0, 0.08]}>
+          <Capsule radius={0.085} length={0.3} center={[0, -0.24, 0]} color={C.shirt} />
+          <Ball radius={0.09} center={[0, -0.5, 0]} color={C.skin} />
         </group>
-        <group ref={armR} position={[0.43, 1.44, 0]}>
-          <Cube size={[0.18, 0.66, 0.2]} center={[0, -0.33, 0]} color={C.jacket} />
-          <Cube size={[0.16, 0.14, 0.18]} center={[0, -0.72, 0]} color={C.skin} />
+        <group ref={armR} position={[0.3, 1.1, 0]} rotation={[0, 0, -0.08]}>
+          <Capsule radius={0.085} length={0.3} center={[0, -0.24, 0]} color={C.shirt} />
+          <Ball radius={0.09} center={[0, -0.5, 0]} color={C.skin} />
         </group>
 
         {/* pescoço e cabeça */}
-        <Cube size={[0.18, 0.14, 0.18]} center={[0, 1.55, 0]} color={C.skinShade} />
+        <mesh position={[0, 1.22, 0]} castShadow>
+          <cylinderGeometry args={[0.1, 0.1, 0.22, 16]} />
+          <meshStandardMaterial color={C.skinShade} roughness={0.85} />
+        </mesh>
         <group position={[0, 1.62, 0]}>
-          <Cube size={[0.56, 0.56, 0.56]} center={[0, 0.28, 0]} color={C.skin} />
-          <Cube size={[0.06, 0.12, 0.1]} center={[-0.3, 0.28, 0]} color={C.skinShade} />
-          <Cube size={[0.06, 0.12, 0.1]} center={[0.3, 0.28, 0]} color={C.skinShade} />
-          {/* cabelo: tampa, nuca, laterais curtas e topete */}
-          <Cube size={[0.6, 0.2, 0.6]} center={[0, 0.55, -0.02]} color={C.hair} />
-          <Cube size={[0.6, 0.36, 0.16]} center={[0, 0.34, -0.26]} color={C.hair} />
-          <Cube size={[0.06, 0.26, 0.42]} center={[-0.29, 0.4, -0.08]} color={C.hair} />
-          <Cube size={[0.06, 0.26, 0.42]} center={[0.29, 0.4, -0.08]} color={C.hair} />
-          <Cube size={[0.34, 0.16, 0.3]} center={[0.05, 0.7, 0.14]} color={C.hair} rotation={[0.35, 0, 0.12]} />
-          {/* sobrancelhas, óculos e olhos */}
-          <Cube size={[0.16, 0.03, 0.02]} center={[-0.13, 0.41, 0.29]} color={C.hair} />
-          <Cube size={[0.16, 0.03, 0.02]} center={[0.13, 0.41, 0.29]} color={C.hair} />
-          <Cube size={[0.2, 0.14, 0.03]} center={[-0.13, 0.3, 0.29]} color={C.frame} />
-          <Cube size={[0.2, 0.14, 0.03]} center={[0.13, 0.3, 0.29]} color={C.frame} />
-          <Cube size={[0.15, 0.09, 0.032]} center={[-0.13, 0.3, 0.292]} color={C.lens} />
-          <Cube size={[0.15, 0.09, 0.032]} center={[0.13, 0.3, 0.292]} color={C.lens} />
-          <Cube size={[0.05, 0.06, 0.02]} center={[-0.12, 0.3, 0.305]} color={C.eye} />
-          <Cube size={[0.05, 0.06, 0.02]} center={[0.12, 0.3, 0.305]} color={C.eye} />
-          <Cube size={[0.08, 0.03, 0.03]} center={[0, 0.32, 0.29]} color={C.frame} />
-          <Cube size={[0.02, 0.02, 0.3]} center={[-0.29, 0.31, 0.14]} color={C.frame} />
-          <Cube size={[0.02, 0.02, 0.3]} center={[0.29, 0.31, 0.14]} color={C.frame} />
-          {/* nariz, bigode e barba */}
-          <Cube size={[0.07, 0.08, 0.06]} center={[0, 0.23, 0.3]} color={C.skinShade} />
-          <Cube size={[0.24, 0.05, 0.03]} center={[0, 0.17, 0.29]} color={C.beard} />
-          <Cube size={[0.56, 0.16, 0.12]} center={[0, 0.08, 0.24]} color={C.beard} />
-          <Cube size={[0.06, 0.22, 0.32]} center={[-0.27, 0.16, 0.12]} color={C.beard} />
-          <Cube size={[0.06, 0.22, 0.32]} center={[0.27, 0.16, 0.12]} color={C.beard} />
-          <Cube size={[0.1, 0.03, 0.01]} center={[0, 0.12, 0.305]} color="#c9836e" />
+          {/* rosto pintado: o centro do canvas fica voltado para +z */}
+          <mesh rotation={[0, -Math.PI / 2, 0]} castShadow receiveShadow>
+            <sphereGeometry args={[0.42, 40, 28]} />
+            <meshStandardMaterial map={face} roughness={0.9} />
+          </mesh>
+          <Ball radius={0.07} center={[-0.41, -0.04, 0]} color={C.skin} />
+          <Ball radius={0.07} center={[0.41, -0.04, 0]} color={C.skin} />
+          {/* cabelo curto e arrumado: calota justa com linha de franja limpa e leve volume no topo */}
+          <mesh position={[0, 0.01, -0.01]} rotation={[-0.42, 0, 0]} castShadow>
+            <sphereGeometry args={[0.44, 32, 16, 0, Math.PI * 2, 0, 1.55]} />
+            <meshStandardMaterial color={C.hair} roughness={0.9} />
+          </mesh>
+          <mesh position={[0, 0.03, 0.05]} rotation={[-0.25, 0, 0]} castShadow>
+            <sphereGeometry args={[0.455, 32, 16, 0, Math.PI * 2, 0, 0.95]} />
+            <meshStandardMaterial color={C.hair} roughness={0.9} />
+          </mesh>
         </group>
       </group>
     </group>

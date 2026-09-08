@@ -190,3 +190,126 @@ export function posterTexture() {
     ctx.fillText("READY", 300, 650);
   });
 }
+
+/** Rosto do personagem (sem barba), mapeado na esfera da cabeça (centro do canvas = frente). */
+export function faceTexture() {
+  return canvasTexture(1024, 512, (ctx, w, h) => {
+    const cx = 512;
+    const eyeY = 258;
+    ctx.fillStyle = "#d9a274";
+    ctx.fillRect(0, 0, w, h);
+
+    // bochechas
+    ctx.fillStyle = "rgba(220, 120, 110, 0.22)";
+    [424, 600].forEach((x) => {
+      ctx.beginPath();
+      ctx.ellipse(x, 312, 34, 22, 0, 0, Math.PI * 2);
+      ctx.fill();
+    });
+    // boca sorrindo
+    ctx.strokeStyle = "#d98a7a";
+    ctx.lineWidth = 9;
+    ctx.lineCap = "round";
+    ctx.beginPath();
+    ctx.arc(cx, 322, 34, 0.18 * Math.PI, 0.82 * Math.PI);
+    ctx.stroke();
+    ctx.fillStyle = "#fff5f0";
+    ctx.beginPath();
+    ctx.arc(cx, 322, 30, 0.22 * Math.PI, 0.78 * Math.PI);
+    ctx.lineTo(cx + 22, 338);
+    ctx.lineTo(cx - 22, 338);
+    ctx.closePath();
+    ctx.fill();
+    // nariz pequeno
+    ctx.fillStyle = "#c48a5e";
+    ctx.beginPath();
+    ctx.moveTo(cx, 272);
+    ctx.lineTo(cx - 10, 294);
+    ctx.lineTo(cx + 10, 294);
+    ctx.closePath();
+    ctx.fill();
+    // sobrancelhas finas
+    ctx.strokeStyle = "#6b3f27";
+    ctx.lineWidth = 8;
+    [452, 572].forEach((x) => {
+      ctx.beginPath();
+      ctx.moveTo(x - 34, 210);
+      ctx.quadraticCurveTo(x, 194, x + 34, 210);
+      ctx.stroke();
+    });
+    // óculos de armação fina
+    ctx.strokeStyle = "#2f3340";
+    ctx.lineWidth = 6;
+    ctx.fillStyle = "rgba(255,255,255,0.22)";
+    [452, 572].forEach((x) => {
+      roundRect(ctx, x - 50, eyeY - 34, 100, 68, 26);
+      ctx.fill();
+      ctx.stroke();
+    });
+    ctx.beginPath();
+    ctx.moveTo(502, eyeY - 8);
+    ctx.lineTo(522, eyeY - 8);
+    ctx.moveTo(402, eyeY - 10);
+    ctx.lineTo(300, eyeY - 18);
+    ctx.moveTo(622, eyeY - 10);
+    ctx.lineTo(724, eyeY - 18);
+    ctx.stroke();
+    // olhos grandes com brilho
+    ctx.fillStyle = "#ffffff";
+    [452, 572].forEach((x) => {
+      ctx.beginPath();
+      ctx.ellipse(x, eyeY + 2, 22, 18, 0, 0, Math.PI * 2);
+      ctx.fill();
+    });
+    ctx.fillStyle = "#3a2416";
+    [452, 572].forEach((x) => {
+      ctx.beginPath();
+      ctx.arc(x + 4, eyeY + 4, 13, 0, Math.PI * 2);
+      ctx.fill();
+    });
+    ctx.fillStyle = "#1a1c2c";
+    [452, 572].forEach((x) => {
+      ctx.beginPath();
+      ctx.arc(x + 5, eyeY + 5, 7, 0, Math.PI * 2);
+      ctx.fill();
+    });
+    ctx.fillStyle = "#ffffff";
+    [452, 572].forEach((x) => {
+      ctx.beginPath();
+      ctx.arc(x + 9, eyeY - 2, 4.5, 0, Math.PI * 2);
+      ctx.fill();
+    });
+  });
+}
+
+export const SHIRT_COLOR = "#3178c6";
+
+/** Camiseta azul lisa com a silhueta de um violão em azul escuro (centro = frente). */
+export function outfitTexture() {
+  const print = "#1b4784";
+  return canvasTexture(1024, 512, (ctx, w, h) => {
+    ctx.fillStyle = SHIRT_COLOR;
+    ctx.fillRect(0, 0, w, h);
+    // gola
+    ctx.strokeStyle = print;
+    ctx.lineWidth = 8;
+    ctx.beginPath();
+    ctx.arc(512, -14, 56, 0.15 * Math.PI, 0.85 * Math.PI);
+    ctx.stroke();
+    // violão inclinado, só silhueta
+    ctx.save();
+    ctx.translate(512, 290);
+    ctx.rotate(-0.35);
+    ctx.fillStyle = print;
+    ctx.beginPath();
+    ctx.ellipse(0, 40, 50, 46, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.ellipse(0, -18, 38, 34, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillRect(-8, -180, 16, 180);
+    roundRect(ctx, -14, -216, 28, 44, 7);
+    ctx.fill();
+    ctx.restore();
+  });
+}
