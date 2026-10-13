@@ -12,6 +12,10 @@ export const Skills = (props: ISkills) => (
       <img
         src={props.image}
         alt={props.alt}
+        width={80}
+        height={80}
+        loading="lazy"
+        decoding="async"
         className="w-16 h-16 sm:w-20 sm:h-20 object-contain shrink-0 [filter:drop-shadow(0_0_8px_rgba(0,245,255,0.5))]"
       />
       <h3 className="font-press-start text-neon-magenta text-[11px] sm:text-xs leading-relaxed">

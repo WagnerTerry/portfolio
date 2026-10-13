@@ -5,6 +5,7 @@
 import { Component, ReactNode, useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import "./game.css";
+import { Arrow } from "../components/PixelIcon";
 import { Card, CARDS, StationId, STATIONS } from "./content";
 import { bindKeyboard, createInput } from "./input";
 import { PlayerState } from "./studio/Player";
@@ -106,16 +107,24 @@ export function GameMode({ onExit }: GameModeProps) {
       <div className="hidden touch:flex absolute bottom-5 inset-x-5 z-10 items-end justify-between">
         <div className="grid grid-cols-3 grid-rows-3 gap-1">
           <div className="col-start-2 row-start-1">
-            <PadButton onHold={(down) => (input.held.up = down)}>▲</PadButton>
+            <PadButton onHold={(down) => (input.held.up = down)}>
+              <Arrow direction="up" size={1.4} />
+            </PadButton>
           </div>
           <div className="col-start-1 row-start-2">
-            <PadButton onHold={(down) => (input.held.left = down)}>◀</PadButton>
+            <PadButton onHold={(down) => (input.held.left = down)}>
+              <Arrow direction="left" size={1.4} />
+            </PadButton>
           </div>
           <div className="col-start-3 row-start-2">
-            <PadButton onHold={(down) => (input.held.right = down)}>▶</PadButton>
+            <PadButton onHold={(down) => (input.held.right = down)}>
+              <Arrow direction="right" size={1.4} />
+            </PadButton>
           </div>
           <div className="col-start-2 row-start-3">
-            <PadButton onHold={(down) => (input.held.down = down)}>▼</PadButton>
+            <PadButton onHold={(down) => (input.held.down = down)}>
+              <Arrow direction="down" size={1.4} />
+            </PadButton>
           </div>
         </div>
         <button
@@ -168,7 +177,7 @@ class SceneErrorBoundary extends Component<{ children: ReactNode }, { error: Err
 function PadButton(props: { onHold: (down: boolean) => void; children: ReactNode }) {
   return (
     <button
-      className="w-14 h-14 rounded-2xl bg-white/90 text-slate-800 text-xl font-bold shadow-lg touch-none active:bg-white active:scale-95"
+      className="w-14 h-14 rounded-2xl bg-white/90 text-slate-800 text-xl shadow-lg touch-none flex items-center justify-center active:bg-white active:scale-95"
       onPointerDown={(event) => {
         event.preventDefault();
         props.onHold(true);
@@ -216,9 +225,9 @@ function StartCard(props: { onStart: () => void }) {
       </ul>
       <button
         onClick={props.onStart}
-        className="mt-6 rounded-full bg-[#5d275d] hover:bg-[#7a3a7a] text-white font-semibold px-6 py-3 cursor-pointer"
+        className="mt-6 inline-flex items-center rounded-full bg-[#5d275d] hover:bg-[#7a3a7a] text-white font-semibold px-6 py-3 cursor-pointer"
       >
-        Entrar no estúdio ▶
+        Entrar no estúdio <Arrow size={0.8} className="ml-1" />
       </button>
     </Modal>
   );

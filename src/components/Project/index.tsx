@@ -1,3 +1,5 @@
+import { Arrow } from "../PixelIcon";
+
 type IProject = {
   image: string;
   title: string;
@@ -13,6 +15,8 @@ export const Project = (props: IProject) => (
       <img
         src={props.image}
         alt={props.alt}
+        loading="lazy"
+        decoding="async"
         className="w-full h-48 sm:h-56 object-cover transition-transform duration-300 group-hover:scale-105"
       />
       <span className="absolute top-2 left-2 font-press-start text-[8px] text-hud-bg bg-neon-yellow px-2 py-1 border-2 border-black">
@@ -43,7 +47,7 @@ export const Project = (props: IProject) => (
         rel="noreferrer"
         className="pixel-btn mt-auto bg-neon-cyan text-hud-bg text-[9px] sm:text-[10px] self-start"
       >
-        VER NO GITHUB ▶
+        VER NO GITHUB <Arrow />
       </a>
     </div>
   </article>

@@ -1,0 +1,140 @@
+- generic [ref=e3]:
+  - button [aria-hidden]: 🎮 MODO GAME
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - link "WAGNER.EXE" [ref=e6] [cursor=pointer]:
+        - /url: "#about"
+      - navigation [ref=e7]:
+        - list [ref=e8]:
+          - listitem [ref=e9]:
+            - link "SOBRE" [ref=e10] [cursor=pointer]:
+              - /url: "#about"
+          - listitem [ref=e13]:
+            - link "PROJETOS" [ref=e14] [cursor=pointer]:
+              - /url: "#projects"
+          - listitem [ref=e17]:
+            - link "SKILLS" [ref=e18] [cursor=pointer]:
+              - /url: "#skills"
+          - listitem [ref=e21]:
+            - link "CONTATO" [ref=e22] [cursor=pointer]:
+              - /url: "#contact"
+  - main [ref=e25]:
+    - generic [ref=e26]:
+      - generic [ref=e27]:
+        - paragraph [ref=e28]: PLAYER 1 — READY
+        - heading "E AÍ, TUDO BEM? ME CHAMO WAGNER, SOU DEV FULLSTACK" [level=1] [ref=e30]: E AÍ, TUDO BEM?ME CHAMO WAGNER,SOU DEV FULLSTACK
+        - paragraph [ref=e31]: +5 anos construindo interfaces, APIs e apps. Jogue o modo game e descubra mais sobre mim.
+        - generic [ref=e32]:
+          - link "VER PROJETOS" [ref=e33] [cursor=pointer]:
+            - /url: "#projects"
+          - button "🎮 MODO GAME" [ref=e36] [cursor=pointer]
+      - img "Foto de perfil" [ref=e39]
+    - generic [ref=e40]:
+      - generic [ref=e41]:
+        - generic [ref=e42]: STAGE 01
+        - heading "PROJETOS" [level=2] [ref=e43]
+      - generic [ref=e45]:
+        - article [ref=e46]:
+          - generic [ref=e47]:
+            - img "Imagem do sistema de motopeças" [ref=e48]
+            - generic [ref=e49]: QUEST
+          - generic [ref=e50]:
+            - heading "Gestão e Estoque" [level=3] [ref=e51]
+            - paragraph [ref=e52]: Sistema web para controle de estoque de loja de motopeças.
+            - list [ref=e53]:
+              - listitem [ref=e54]: ReactJs
+              - listitem [ref=e55]: TypeScript
+              - listitem [ref=e56]: NodeJs
+              - listitem [ref=e57]: MongoDB
+            - link "VER NO GITHUB" [ref=e58] [cursor=pointer]:
+              - /url: https://github.com/WagnerTerry/moto-pecas-projeto
+        - article [ref=e61]:
+          - generic [ref=e62]:
+            - img "Imagem do sistema de pizzaria" [ref=e63]
+            - generic [ref=e64]: QUEST
+          - generic [ref=e65]:
+            - heading "Pizzaria" [level=3] [ref=e66]
+            - paragraph [ref=e67]: Sistema web para controle do fluxo de caixa e pedidos de uma pizzaria.
+            - list [ref=e68]:
+              - listitem [ref=e69]: ReactJs
+              - listitem [ref=e70]: NodeJs
+              - listitem [ref=e71]: MySQL
+            - link "VER NO GITHUB" [ref=e72] [cursor=pointer]:
+              - /url: https://github.com/WagnerTerry/new_disk_pizza
+        - article [ref=e75]:
+          - generic [ref=e76]:
+            - img "Imagem do projeto dicionário" [ref=e77]
+            - generic [ref=e78]: QUEST
+          - generic [ref=e79]:
+            - heading "Dicionário em Inglês" [level=3] [ref=e80]
+            - paragraph [ref=e81]: Dicionário em inglês, com significados e fonéticas.
+            - list [ref=e82]:
+              - listitem [ref=e83]: React Native
+              - listitem [ref=e84]: TypeScript
+              - listitem [ref=e85]: Async Storage
+              - listitem [ref=e86]: Axios
+            - link "VER NO GITHUB" [ref=e87] [cursor=pointer]:
+              - /url: https://github.com/WagnerTerry/challenge-coodesh-mobile
+    - generic [ref=e90]:
+      - generic [ref=e91]:
+        - generic [ref=e92]: STAGE 02
+        - heading "SKILLS" [level=2] [ref=e93]
+      - generic [ref=e95]:
+        - article [ref=e96]:
+          - generic [ref=e97]:
+            - img "Stacks Frontend" [ref=e98]
+            - heading "Frontend" [level=3] [ref=e99]
+          - paragraph [ref=e100]: Mais de 5 anos de experiência criando interfaces em diversos ambientes.
+          - list [ref=e101]:
+            - listitem [ref=e102]: HTML5
+            - listitem [ref=e103]: CSS
+            - listitem [ref=e104]: Sass
+            - listitem [ref=e105]: Styled Components
+            - listitem [ref=e106]: JavaScript
+            - listitem [ref=e107]: TypeScript
+            - listitem [ref=e108]: Angular
+            - listitem [ref=e109]: Vue
+            - listitem [ref=e110]: React
+            - listitem [ref=e111]: NextJs
+        - article [ref=e112]:
+          - generic [ref=e113]:
+            - img "Stacks Backend" [ref=e114]
+            - heading "Backend" [level=3] [ref=e115]
+          - paragraph [ref=e116]: APIs, bancos de dados e infraestrutura de serviços.
+          - list [ref=e117]:
+            - listitem [ref=e118]: NodeJs
+            - listitem [ref=e119]: NestJs
+            - listitem [ref=e120]: MySQL
+            - listitem [ref=e121]: PostgreSQL
+            - listitem [ref=e122]: MongoDB
+            - listitem [ref=e123]: Docker
+            - listitem [ref=e124]: Swagger
+        - article [ref=e125]:
+          - generic [ref=e126]:
+            - img "Stacks Mobile" [ref=e127]
+            - heading "Mobile" [level=3] [ref=e128]
+          - paragraph [ref=e129]: Apps híbridos e multiplataforma.
+          - list [ref=e130]:
+            - listitem [ref=e131]: React Native
+            - listitem [ref=e132]: Flutter
+            - listitem [ref=e133]: Ionic
+    - generic [ref=e134]:
+      - generic [ref=e135]:
+        - generic [ref=e136]: SAVE POINT
+        - heading "CONTATO" [level=2] [ref=e137]
+      - generic [ref=e139]:
+        - img "Foto de contato" [ref=e142]
+        - generic [ref=e143]:
+          - heading "VAMOS TOMAR UM CAFÉ?" [level=3] [ref=e144]
+          - generic [ref=e145]:
+            - paragraph [ref=e146]: 📟 21 97484-1079
+            - paragraph [ref=e147]: ✉ goncalveswagner15@gmail.com
+          - generic [ref=e148]:
+            - link "LINKEDIN" [ref=e149] [cursor=pointer]:
+              - /url: https://www.linkedin.com/in/wagner-sgonçalves
+            - link "GITHUB" [ref=e150] [cursor=pointer]:
+              - /url: https://github.com/WagnerTerry
+            - link "CURRÍCULO" [ref=e151] [cursor=pointer]:
+              - /url: /src/data/curriculo do Wagner.pdf
+  - contentinfo [ref=e154]:
+    - paragraph [ref=e155]: © 2026 WAGNER GONÇALVES — INSERT COIN TO CONTINUE

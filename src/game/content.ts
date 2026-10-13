@@ -108,7 +108,7 @@ export const CARDS: Record<StationId, Card> = {
   desk: {
     title: "Bancada",
     text: [
-      "E aí, tudo bem? Me chamo Wagner, sou Dev FullStack com mais de 4 anos de experiência criando aplicações web e mobile.",
+      "E aí, tudo bem? Me chamo Wagner, sou Dev FullStack com mais de 5 anos de experiência criando aplicações web e mobile.",
       "Trabalho com React, Node, TypeScript e afins, do front ao banco de dados. Curto transformar ideias em produtos que funcionam bem e são bons de usar.",
       "Meu currículo está aqui na mesa, pode levar uma cópia.",
     ],

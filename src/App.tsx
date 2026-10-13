@@ -1,15 +1,16 @@
-import Profile from "../src/assets/profile.png";
-import Motorcycle from "../src/assets/motorcycle-cover.png";
-import DiskPizza from "../src/assets/disk-pizza.png";
-import Dictionary from "../src/assets/dictionary.png";
-import StackFrontend from "../src/assets/stack-frontend.svg";
-import StackBackend from "../src/assets/stack-backend.svg";
-import StackMobile from "../src/assets/stack-mobile.svg";
-import PhotoContact from "../src/assets/photo-contact.jpeg";
+import Profile from "./assets/profile.webp";
+import Motorcycle from "./assets/motorcycle-cover.webp";
+import DiskPizza from "./assets/disk-pizza.webp";
+import Dictionary from "./assets/dictionary.webp";
+import StackFrontend from "./assets/stack-frontend.svg";
+import StackBackend from "./assets/stack-backend.svg";
+import StackMobile from "./assets/stack-mobile.svg";
+import PhotoContact from "./assets/photo-contact.webp";
 import Curriculum from "./data/curriculo do Wagner.pdf";
 
-import { lazy, Suspense, useState } from "react";
+import { lazy, Suspense, useEffect, useRef, useState } from "react";
 
+import { Arrow, Cursor, Gamepad } from "./components/PixelIcon";
 import { Project } from "./components/Project";
 import { Skills } from "./components/Skills";
 // Three.js é pesado: o modo game só é baixado quando o jogador abre
@@ -38,6 +39,19 @@ function SectionTitle(props: { stage: string; title: string }) {
 
 function App() {
   const [gameMode, setGameMode] = useState(false);
+  const heroRef = useRef<HTMLElement>(null);
+  const [heroVisible, setHeroVisible] = useState(true);
+
+  // o botão flutuante do modo game só aparece depois que o hero (que já tem o mesmo botão) sai da tela
+  useEffect(() => {
+    const hero = heroRef.current;
+    if (!hero || gameMode) return;
+    const observer = new IntersectionObserver(([entry]) => setHeroVisible(entry.isIntersecting), {
+      threshold: 0.25,
+    });
+    observer.observe(hero);
+    return () => observer.disconnect();
+  }, [gameMode]);
 
   if (gameMode) {
     return (
@@ -56,11 +70,15 @@ function App() {
   return (
     <div className="scanlines min-h-screen">
       <button
-        className="fixed right-4 bottom-4 sm:right-6 sm:bottom-6 z-[100] pixel-btn bg-game-purple text-white animate-game-pulse hover:bg-game-red"
+        className={`fixed right-4 bottom-4 sm:right-6 sm:bottom-6 z-[100] pixel-btn bg-game-purple text-white hover:bg-game-red transition-all duration-300 ${
+          heroVisible ? "opacity-0 translate-y-6 pointer-events-none" : "opacity-100 translate-y-0 animate-game-pulse"
+        }`}
         onClick={() => setGameMode(true)}
         title="Jogue o portfólio em modo game!"
+        aria-hidden={heroVisible}
+        tabIndex={heroVisible ? -1 : 0}
       >
-        🎮 MODO GAME
+        <Gamepad /> MODO GAME
       </button>
 
       <header className="fixed top-0 inset-x-0 z-50 bg-hud-bg/90 backdrop-blur border-b-2 border-neon-cyan/40">
@@ -77,9 +95,9 @@ function App() {
                 <li key={link.href}>
                   <a
                     href={link.href}
-                    className="font-press-start text-[9px] sm:text-[11px] no-underline text-slate-300 transition-colors hover:text-neon-yellow"
+                    className="inline-flex items-center gap-1.5 font-press-start text-[9px] sm:text-[11px] no-underline text-slate-300 transition-colors hover:text-neon-yellow"
                   >
-                    ▸ {link.label}
+                    <Arrow /> {link.label}
                   </a>
                 </li>
               ))}
@@ -91,11 +109,12 @@ function App() {
       <main className="max-w-6xl mx-auto px-4 sm:px-6">
         <section
           id="about"
+          ref={heroRef}
           className="scroll-mt-28 pt-32 sm:pt-44 pb-16 sm:pb-24 grid gap-12 md:grid-cols-2 items-center"
         >
           <div className="text-center md:text-left">
             <p className="font-press-start text-neon-green text-[10px] sm:text-xs mb-6 sm:mb-8">
-              PLAYER 1 — READY <span className="animate-game-blink">▮</span>
+              PLAYER 1 — READY <Cursor />
             </p>
             <h1 className="font-press-start text-white text-base sm:text-xl lg:text-2xl leading-[2] m-0">
               E AÍ, TUDO BEM?
@@ -109,18 +128,18 @@ function App() {
               </span>
             </h1>
             <p className="mt-6 text-xl sm:text-2xl text-slate-300 max-w-md mx-auto md:mx-0">
-              +4 anos construindo interfaces, APIs e apps. Explore as missões
-              abaixo ou aperte start para jogar o portfólio.
+              +5 anos construindo interfaces, APIs e apps. Jogue o modo game e
+              descubra mais sobre mim.
             </p>
             <div className="mt-8 flex flex-wrap justify-center md:justify-start gap-4">
               <a href="#projects" className="pixel-btn bg-neon-cyan text-hud-bg">
-                ▶ VER PROJETOS
+                <Arrow /> VER PROJETOS
               </a>
               <button
                 className="pixel-btn bg-game-purple text-white hover:bg-game-red"
                 onClick={() => setGameMode(true)}
               >
-                🎮 MODO GAME
+                <Gamepad /> MODO GAME
               </button>
             </div>
           </div>
@@ -133,7 +152,10 @@ function App() {
             <img
               src={Profile}
               alt="Foto de perfil"
-              className="relative block w-64 sm:w-80 lg:w-96 max-w-full border-4 border-neon-cyan bg-hud-panel shadow-[0_0_35px_rgba(0,245,255,0.25)]"
+              width={658}
+              height={623}
+              decoding="async"
+              className="relative block w-64 sm:w-80 lg:w-96 h-auto max-w-full border-4 border-neon-cyan bg-hud-panel shadow-[0_0_35px_rgba(0,245,255,0.25)]"
             />
           </div>
         </section>
@@ -173,7 +195,7 @@ function App() {
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             <Skills
               title="Frontend"
-              description="Mais de 4 anos de experiência criando interfaces em diversos ambientes."
+              description="Mais de 5 anos de experiência criando interfaces em diversos ambientes."
               techs={[
                 "HTML5",
                 "CSS",
@@ -215,7 +237,7 @@ function App() {
         </section>
 
         <section id="contact" className="scroll-mt-28 py-16 sm:py-24">
-          <SectionTitle stage="FINAL BOSS" title="CONTATO" />
+          <SectionTitle stage="SAVE POINT" title="CONTATO" />
           <div className="bg-hud-panel border-4 border-hud-line shadow-[8px_8px_0_#000] p-6 sm:p-10 grid gap-10 md:grid-cols-[minmax(0,420px)_1fr] items-center">
             <div className="relative justify-self-center md:justify-self-start w-full max-w-[420px]">
               <div
@@ -225,7 +247,11 @@ function App() {
               <img
                 src={PhotoContact}
                 alt="Foto de contato"
-                className="relative block w-full border-4 border-neon-magenta object-cover"
+                width={428}
+                height={428}
+                loading="lazy"
+                decoding="async"
+                className="relative block w-full h-auto border-4 border-neon-magenta object-cover"
               />
             </div>
 
@@ -261,7 +287,7 @@ function App() {
                   rel="noreferrer"
                   className="pixel-btn bg-neon-green text-hud-bg"
                 >
-                  CURRÍCULO ⬇
+                  CURRÍCULO <Arrow direction="down" />
                 </a>
               </div>
             </div>
@@ -271,8 +297,7 @@ function App() {
 
       <footer className="border-t-2 border-neon-cyan/30 py-8 px-4 text-center">
         <p className="font-press-start text-[8px] sm:text-[10px] text-slate-400 m-0 leading-loose">
-          © 2026 WAGNER GONÇALVES — INSERT COIN TO CONTINUE{" "}
-          <span className="animate-game-blink">▮</span>
+          © 2026 WAGNER GONÇALVES — INSERT COIN TO CONTINUE <Cursor />
         </p>
       </footer>
     </div>
