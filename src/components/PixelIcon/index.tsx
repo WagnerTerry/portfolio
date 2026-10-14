@@ -50,11 +50,13 @@ export function Gamepad({ className = "" }: { className?: string }) {
   );
 }
 
-/** Cursor de terminal piscando (bloco), na cor do texto. */
+/** Cursor de terminal piscando (bloco), na cor do texto. Ocupa a mesma caixa das maiúsculas
+ *  (7 das 8 linhas da grade, apoiado na linha de base) e sobe o mesmo NUDGE das setas. */
 export function Cursor({ className = "" }: { className?: string }) {
   return (
     <span
-      className={`inline-block w-[0.6em] h-[1em] align-middle bg-current animate-game-blink ${className}`}
+      className={`inline-block w-[0.6em] h-[0.875em] align-baseline bg-current animate-game-blink ${className}`}
+      style={{ transform: "translateY(-0.1875em)" }}
       aria-hidden
     />
   );

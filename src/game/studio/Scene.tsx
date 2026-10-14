@@ -7,6 +7,7 @@ import * as THREE from "three";
 import { CAMERA_OFFSET, PLAYER, StationId, STATIONS } from "../content";
 import { InputState } from "../input";
 import { CameraRig } from "./CameraRig";
+import { Lights } from "./Lights";
 import { Markers } from "./Markers";
 import { Player, PlayerState } from "./Player";
 import { Props } from "./props";
@@ -55,21 +56,7 @@ export function Scene({ input, activeStation, onStateChange }: SceneProps) {
       }}
     >
       <color attach="background" args={["#1a1c2c"]} />
-      <ambientLight intensity={0.5} />
-      <hemisphereLight args={["#dfe9ff", "#8a6a4a", 0.55]} />
-      <directionalLight
-        position={[6, 12, 5]}
-        intensity={1.8}
-        castShadow
-        shadow-mapSize={[2048, 2048]}
-        shadow-camera-left={-12}
-        shadow-camera-right={12}
-        shadow-camera-top={12}
-        shadow-camera-bottom={-12}
-        shadow-camera-near={1}
-        shadow-camera-far={40}
-        shadow-bias={-0.0004}
-      />
+      <Lights />
       <Room onFloorPointerDown={onFloorPointerDown} />
       <Props onStation={onStation} />
       <Markers active={activeStation} />

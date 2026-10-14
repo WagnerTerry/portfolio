@@ -1,5 +1,6 @@
-// Conteúdo do modo game: medidas do estúdio, estações interativas, móveis que bloqueiam
-// a passagem, textos dos cards e links. Distâncias em metros, chão centrado na origem.
+// Conteúdo do modo game: medidas do estúdio, estações interativas (com a pose da animação de
+// cada uma), móveis que bloqueiam a passagem, textos dos cards e links.
+// Distâncias em metros, chão centrado na origem.
 import Curriculum from "../data/curriculo do Wagner.pdf";
 
 export const LINKS = {
@@ -26,7 +27,10 @@ export const PLAYER = {
 export const CAMERA_OFFSET: [number, number, number] = [0, 10.5, 10.5];
 
 export type Direction = "up" | "down" | "left" | "right";
-export type StationId = "desk" | "github" | "linkedin" | "coffee";
+export type StationId = "desk" | "github" | "linkedin" | "coffee" | "games" | "guitar";
+
+/** Animação que o personagem faz ao usar uma estação. */
+export type ActionKind = "type" | "drink" | "play" | "guitar";
 
 /** Retângulo no chão (x1 < x2, z1 < z2). */
 export type Rect = { x1: number; z1: number; x2: number; z2: number };
@@ -42,6 +46,10 @@ export type Station = {
   approach: { x: number; z: number };
   /** posição do marcador flutuante */
   marker: [number, number, number];
+  /** animação ao usar; sem ela o card abre na hora */
+  action?: ActionKind;
+  /** onde o personagem fica durante a animação (pode ser dentro de um móvel) e para onde olha */
+  pose?: { x: number; z: number; yaw: number };
 };
 
 export const STATIONS: Station[] = [
@@ -52,6 +60,8 @@ export const STATIONS: Station[] = [
     zone: { x1: -4.2, z1: -3.8, x2: 0.2, z2: -2.2 },
     approach: { x: -2, z: -3.1 },
     marker: [-2, 2.4, -5.2],
+    action: "type",
+    pose: { x: -2, z: -4.3, yaw: Math.PI },
   },
   {
     id: "github",
@@ -65,8 +75,8 @@ export const STATIONS: Station[] = [
     id: "linkedin",
     label: "Banner LinkedIn",
     prompt: "Abrir o LinkedIn",
-    zone: { x1: -6.7, z1: 0.1, x2: -4.3, z2: 1.5 },
-    approach: { x: -5.5, z: 1.0 },
+    zone: { x1: -6.7, z1: 0.1, x2: -4.3, z2: 0.95 },
+    approach: { x: -5.5, z: 0.6 },
     marker: [-5.5, 2.7, -0.4],
   },
   {
@@ -76,6 +86,28 @@ export const STATIONS: Station[] = [
     zone: { x1: -5.7, z1: 2.3, x2: -4.3, z2: 4.7 },
     approach: { x: -5.0, z: 3.5 },
     marker: [-6.3, 2.2, 3.5],
+    action: "drink",
+    pose: { x: -5.35, z: 3.5, yaw: -Math.PI / 2 },
+  },
+  {
+    id: "games",
+    label: "Videogame",
+    prompt: "Jogar videogame",
+    zone: { x1: 3.5, z1: 0.9, x2: 6.4, z2: 3.0 },
+    approach: { x: 4.0, z: 2.0 },
+    marker: [5.0, 1.9, 0.35],
+    action: "play",
+    pose: { x: 5.0, z: 1.72, yaw: Math.PI },
+  },
+  {
+    id: "guitar",
+    label: "Guitarra",
+    prompt: "Tocar guitarra",
+    zone: { x1: -6.7, z1: 1.0, x2: -5.0, z2: 2.0 },
+    approach: { x: -5.55, z: 1.45 },
+    marker: [-6.3, 2.0, 1.1],
+    action: "guitar",
+    pose: { x: -5.6, z: 1.6, yaw: 0.3 },
   },
 ];
 
@@ -86,7 +118,6 @@ export const OBSTACLES: Rect[] = [
   { x1: 1.0, z1: -6.0, x2: 3.4, z2: -5.1 }, // estante
   { x1: -7.0, z1: 2.6, x2: -5.7, z2: 4.4 }, // balcão do café
   { x1: -6.4, z1: -0.9, x2: -4.6, z2: 0.0 }, // banner do LinkedIn
-  { x1: 5.6, z1: 2.9, x2: 6.8, z2: 4.1 }, // planta
   { x1: 5.95, z1: -1.35, x2: 6.65, z2: -0.65 }, // luminária
   { x1: -6.85, z1: 0.6, x2: -5.95, z2: 1.45 }, // guitarra no suporte
   { x1: 4.0, z1: -0.05, x2: 6.0, z2: 0.65 }, // rack da TV
@@ -108,7 +139,8 @@ export type Card = {
   links: CardLink[];
 };
 
-export const CARDS: Record<StationId, Card> = {
+/** Cards das estações; as que têm só animação (videogame, guitarra) não entram aqui. */
+export const CARDS: Partial<Record<StationId, Card>> = {
   desk: {
     title: "Bancada",
     text: [

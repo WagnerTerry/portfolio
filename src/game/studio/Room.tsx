@@ -1,15 +1,22 @@
-// A sala: piso de tábuas sobre uma base de diorama, duas paredes, janela e tapete.
+// A sala: piso de tábuas sobre uma base de diorama, duas paredes, janela (com vista de dia ou de
+// noite) e tapete.
 
+import { useMemo } from "react";
 import { ThreeEvent } from "@react-three/fiber";
 
 import { ROOM } from "../content";
+import { useGameState } from "../store";
 import { Block } from "./Block";
+import { windowTexture } from "./textures";
 
 const W = ROOM.width;
 const D = ROOM.depth;
 const H = ROOM.wallHeight;
 
 export function Room(props: { onFloorPointerDown: (event: ThreeEvent<PointerEvent>) => void }) {
+  const night = useGameState((s) => s.night);
+  const day = useMemo(() => windowTexture(false), []);
+  const dusk = useMemo(() => windowTexture(true), []);
   const planks = [];
   for (let z = -D / 2 + 1; z < D / 2; z += 1) planks.push(z);
 
@@ -33,16 +40,12 @@ export function Room(props: { onFloorPointerDown: (event: ThreeEvent<PointerEven
       <Block size={[W, 0.18, 0.06]} at={[0, 0, -D / 2 + 0.03]} color="#c9b48f" castShadow={false} />
       <Block size={[0.06, 0.18, D]} at={[-W / 2 + 0.03, 0, 0]} color="#c9b48f" castShadow={false} />
 
-      {/* janela acima da bancada */}
+      {/* janela acima da bancada: a vista muda com o modo noite */}
       <Block size={[2.8, 1.6, 0.1]} at={[-2, 1.9, -D / 2 + 0.02]} color="#ffffff" castShadow={false} />
-      <Block
-        size={[2.5, 1.3, 0.08]}
-        at={[-2, 2.05, -D / 2 + 0.06]}
-        color="#bfe3ff"
-        emissive="#9adcf8"
-        emissiveIntensity={0.5}
-        castShadow={false}
-      />
+      <mesh position={[-2, 2.7, -D / 2 + 0.085]}>
+        <planeGeometry args={[2.5, 1.3]} />
+        <meshBasicMaterial map={night ? dusk : day} toneMapped={false} />
+      </mesh>
       <Block size={[0.08, 1.3, 0.1]} at={[-2, 2.05, -D / 2 + 0.07]} color="#ffffff" castShadow={false} />
       <Block size={[2.5, 0.08, 0.1]} at={[-2, 2.66, -D / 2 + 0.07]} color="#ffffff" castShadow={false} />
 

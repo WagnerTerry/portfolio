@@ -2,7 +2,8 @@
 
 Site pessoal de **Wagner da Silva Gonçalves**, desenvolvedor FullStack (React, Node, TypeScript), com visual
 retrô de fliperama e um **modo game**: o "Estúdio do Wagner", uma sala 3D low-poly onde um personagem cartoon
-do Wagner anda pela sala e usa os móveis para abrir bio, currículo, GitHub, LinkedIn e contato.
+do Wagner anda pela sala e usa os móveis para abrir bio, currículo, GitHub, LinkedIn e contato, com modo
+noite, efeitos sonoros sintetizados e um minigame de RPG na TV.
 
 Este README é a documentação do repositório. Serve para pessoas e para agentes de IA que forem alterar o site:
 descreve o conteúdo, a estrutura, as regras do modo game e como verificar mudanças. Mantenha-o atualizado
@@ -64,7 +65,7 @@ domínio publicado sem barra final; o `index.html` usa `%VITE_SITE_URL%` nas met
 (`og:url` e `og:image`, que aponta para `public/og-image.jpg`). Se ficar vazia, a prévia ao compartilhar o
 link sai sem imagem.
 
-Tamanho do build (out/2026): site ≈ 155 KB de JS (50 KB gzip); modo game ≈ 910 KB (247 KB gzip) num chunk
+Tamanho do build (out/2026): site ≈ 155 KB de JS (50 KB gzip); modo game ≈ 940 KB (258 KB gzip) num chunk
 separado, baixado só quando o visitante clica em MODO GAME (`lazy()` em `src/App.tsx`).
 
 ## Estrutura
@@ -101,21 +102,46 @@ um cartoon do Wagner (cabeça esférica com o rosto pintado em textura, óculos,
 pela sala e, perto de uma **estação**, aparece um balão; Enter abre um card com texto e links.
 
 Controles: setas ou WASD; clique ou toque no chão para caminhar até o ponto; Enter, Espaço ou E para usar;
-Esc fecha o card ou sai do game. No celular (variante `touch:` do Tailwind, `pointer: coarse`) aparecem um
-direcional e um botão "Usar" na tela.
+Esc fecha o card ou o minigame ou sai do game. No celular (variante `touch:` do Tailwind,
+`pointer: coarse`) aparecem um direcional e um botão "Usar" na tela. No HUD há o botão de dia/noite e o de
+mudo.
+
+### Recursos além do passeio
+
+- **Avatar vivo**: pisca, a cabeça segue o mouse quando ele está parado, faz gestos depois de alguns segundos
+  sem mexer (olhar em volta, espreguiçar, coçar a cabeça) e faz cara de susto ao esbarrar num móvel. Tudo em
+  `studio/Player.tsx`; os rostos são três variantes de `faceTexture`.
+- **Interações nas estações**: usar uma estação com `action` leva o personagem a uma `pose` (pode ser dentro
+  do móvel, como a cadeira) e anima: digita na bancada, toma café com a xícara na mão e vapor, senta no pufe
+  com o controle e joga, pega a guitarra do suporte e toca com notas subindo e um riff. O card ou o minigame
+  abre 0,9 s depois; ao fechar, o personagem volta ao lugar.
+- **Modo noite**: começa ligado quando é noite no relógio de quem visita (antes das 6h ou a partir das 18h) e
+  alterna pelo interruptor na parede do fundo ou pelo botão do HUD. A janela muda para lua e estrelas, a
+  luminária vira a fonte de luz com sombras, as telas e o led do console ganham luzes pontuais e o letreiro
+  neon "WAGNER.EXE" acende. `studio/Lights.tsx` faz a transição suave.
+- **Relógio de parede** na hora local do visitante (ponteiros 3D).
+- **Som**: passos, cliques, riff da guitarra e efeitos do minigame, tudo sintetizado com Web Audio em
+  `audio.ts` (sem arquivos e sem trilha de fundo: o Wagner preferiu sem música). O botão de mudo persiste em
+  `localStorage`.
+- **Minigame na TV**: sentar no pufe abre uma batalha por turnos contra o Slime Rei (Atacar, Magia com MP,
+  Poção, Fugir) em tela cheia; a TV da sala espelha a batalha. Regras em `battle.ts`, desenho em
+  `drawBattle` (`studio/textures.ts`), tela e controles em `BattleGame.tsx`.
 
 ### Estações (conteúdo interativo)
 
 | Estação | Objeto | Card |
 | --- | --- | --- |
-| `desk` | Bancada com monitor | Bio curta e botão para baixar o currículo |
+| `desk` | Bancada com monitor | Senta e digita; card com bio curta e botão para baixar o currículo |
 | `github` | Rack de servidor com placa GitHub | Link para o GitHub |
 | `linkedin` | Banner roll-up azul | Link para o LinkedIn |
-| `coffee` | Balcão com máquina de café | Telefone, e-mail e WhatsApp |
+| `coffee` | Balcão com máquina de café | Toma um café; card com telefone, e-mail e WhatsApp |
+| `games` | Pufe em frente à TV | Senta e joga; abre o minigame (sem card) |
+| `guitar` | Guitarra no suporte | Pega a guitarra e toca um solo de ~5 s (sem card) |
 
 Tudo isso fica em `src/game/content.ts`: `STATIONS` (zona do chão onde o balão aparece, ponto `approach` para
-onde o personagem anda ao clicar no objeto, posição do marcador flutuante), `CARDS` (título, parágrafos e
-botões) e `LINKS`. Para mudar um texto ou link do game, edite só esse arquivo.
+onde o personagem anda ao clicar no objeto, posição do marcador flutuante, e `action` + `pose` para as que têm
+animação), `CARDS` (título, parágrafos e botões) e `LINKS`. Para mudar um texto ou link do game, edite só
+esse arquivo. As zonas não podem se sobrepor: a primeira da lista vence.
 
 ### A sala
 
@@ -133,27 +159,35 @@ vinda de +z, seguindo o personagem (`CAMERA_OFFSET`). O personagem começa em (0
 | Rack de servidor GitHub | (5.1, −5.3) | `ServerRack` |
 | Luminária de chão | (6.3, −1) | `FloorLamp` |
 | Banner LinkedIn | (−5.5, −0.45) | `LinkedInBoard` |
-| Guitarra elétrica vermelha num suporte | (−6.4, 1.1) | `Guitar` |
+| Guitarra elétrica vermelha num suporte (some do suporte enquanto ele toca) | (−6.4, 1.1) | `Guitar` + `GuitarBody` |
+| Interruptor de luz | parede do fundo, x 0.6 | `LightSwitch` |
+| Letreiro neon "WAGNER.EXE" | parede do fundo, x 2.2, acima da estante | `NeonSign` |
+| Relógio de parede | parede do fundo, acima do quadro branco | `WallClock` |
 | Balcão do café com máquina, xícaras e pote | (−6.35, 3.5) | `CoffeeStation` |
 | Tapete roxo | (0.8, 0.2) | `Room.tsx` |
-| Cantinho gamer: rack com TV (batalha de RPG de espadas na tela), console no nicho e pufe com controle | rack (5, 0.3), pufe (5, 1.9) | `GameCorner` |
+| Cantinho gamer: rack com TV (batalha de RPG na tela, espelhando o minigame), console no nicho e pufe com controle | rack (5, 0.3), pufe (5, 1.9) | `GameCorner` + `Gamepad` |
 | Mesa auxiliar com notebook (terminal), monitor externo (navegador), mouse, caneca e banquinho | (−2.9, 4.3) | `LaptopDesk` |
-| Planta | (6.2, 3.5) | `Plant` |
 
 ### Arquivos de `src/game/`
 
 | Arquivo | Papel |
 | --- | --- |
-| `GameMode.tsx` | Overlay em tela cheia: HUD, tela inicial, cards, teclado e direcional touch. Em desenvolvimento expõe `window.__studio`. |
-| `content.ts` | `ROOM`, `PLAYER` (início, velocidade, raio), `CAMERA_OFFSET`, `STATIONS`, `OBSTACLES`, `CARDS`, `LINKS`. |
+| `GameMode.tsx` | Overlay em tela cheia: HUD (moedas, dia/noite, mudo), tela inicial, cards, minigame, teclado e direcional touch; dispara as animações das estações. Em desenvolvimento expõe `window.__studio`. |
+| `store.ts` | Estado compartilhado fora do React (`getState`, `setState`, `useGameState`): noite, mudo, ação em andamento, estado da batalha. O Canvas do R3F é outra raiz React, então contexto não atravessa. |
+| `content.ts` | `ROOM`, `PLAYER` (início, velocidade, raio), `CAMERA_OFFSET`, `STATIONS` (com `action` e `pose`), `OBSTACLES`, `CARDS`, `LINKS`. |
+| `audio.ts` | Efeitos sonoros sintetizados com Web Audio: `sfx.*`, `setMuted`, `unlockAudio`. |
+| `battle.ts` | Regras do minigame: estado da batalha, turno do herói e do Slime Rei. |
+| `BattleGame.tsx` | Tela do minigame: canvas com `drawBattle`, teclado e botões de controle. |
 | `input.ts` | Estado de entrada: teclas, direcional e destino do clique. |
 | `game.css` | Animação do balão de interação. |
-| `studio/Scene.tsx` | Canvas, luzes e sombras; monta Room, Props, Markers, Player e CameraRig. |
-| `studio/Room.tsx` | Piso de tábuas, base do diorama, paredes, janela e tapete. |
-| `studio/props.tsx` | Todos os móveis, montados só com `Block`, `Cylinder`, `Sphere` e `Picture`. |
+| `studio/Scene.tsx` | Canvas; monta Lights, Room, Props, Markers, Player e CameraRig. |
+| `studio/Lights.tsx` | Luzes de dia e de noite com transição (sol, ambiente, luminária com sombras, TV, neon, monitor). |
+| `studio/Room.tsx` | Piso de tábuas, base do diorama, paredes, janela (vista de dia ou de noite) e tapete. |
+| `studio/props.tsx` | Todos os móveis, montados só com `Block`, `Cylinder`, `Sphere` e `Picture`; exporta `GuitarBody` e `Gamepad`, usados também nas mãos do personagem. |
 | `studio/Block.tsx` | Primitivas low-poly; `at` = [x, altura da base, z]. `Cylinder` aceita `rotation` (deitado vira um disco). |
-| `studio/textures.ts` | Texturas desenhadas em canvas: placas, telas (monitor, navegador, terminal, TV), quadro, pôster, rosto e camiseta. |
-| `studio/Player.tsx` | Personagem, movimento, colisão, animação de andar e detecção da estação ao alcance. |
+| `studio/textures.ts` | Texturas em canvas: placas, telas (monitor, navegador, terminal), janela, neon, relógio, partículas, quadro, pôster, rosto (3 expressões), camiseta e o desenho da batalha (`drawBattle`, `createBattleScreen`). |
+| `studio/Player.tsx` | Personagem: movimento, colisão, animação de andar, piscar, olhar para o mouse, gestos parado, susto e as poses das interações (com xícara, controle e guitarra nas mãos). Em desenvolvimento expõe `window.__studioSim`. |
+| `studio/Puffs.tsx` | Partículas em sprites: vapor do café e notas da guitarra. |
 | `studio/collision.ts` | Círculo do personagem contra os retângulos de `OBSTACLES` e os limites da sala, deslizando nas bordas. |
 | `studio/CameraRig.tsx` | Câmera com suavização seguindo o personagem. |
 | `studio/Markers.tsx` | Losangos flutuantes sobre as estações. |
@@ -179,6 +213,13 @@ vinda de +z, seguindo o personagem (`CAMERA_OFFSET`). O personagem começa em (0
    externas.
 7. **Personagem.** O visual já passou por várias rodadas de ajuste e está aprovado; alterações pedem conversa
    antes. O rosto e a camiseta vêm de `faceTexture` e `outfitTexture`.
+8. **Estação com animação.** Dê `action` e `pose` à estação em `STATIONS`; a altura do pivô na pose fica em
+   `POSE_Y` e as rotações dos membros em `poseLimbs`, os dois em `Player.tsx`. O personagem vai até a `pose`
+   ignorando colisão (0,45 s), fica animando enquanto o card ou o minigame estiver aberto e volta sozinho
+   quando `action` vira `null`. Objetos que ele "pega" somem do cenário pelo `useGameState` e aparecem como
+   filhos do corpo em `Player.tsx`.
+9. **Luzes.** Uma só luz com sombra de dia (sol) e uma de noite (luminária, `castShadow` ligado só no escuro).
+   Luzes pontuais novas custam caro no celular; prefira materiais emissivos.
 
 ### Como verificar uma mudança no game
 
@@ -189,9 +230,14 @@ npx vite --port 5199
 
 Abra o site, clique em MODO GAME e aperte Enter. Em desenvolvimento, `window.__studio` dá acesso ao estado:
 `__studio.input.target = { x, z }` faz o personagem andar até o ponto (serve para testar colisão),
-`__studio.use()` abre o card da estação ao alcance e o balão `.door-prompt` mostra qual estação está ativa.
-Confira o visual dos objetos novos de perto, se o personagem para na borda deles e se todos os caminhos entre
-as estações continuam chegando com o balão certo.
+`__studio.use()` usa a estação ao alcance (anima e abre o card ou o minigame), `__studio.getState()` e
+`__studio.setState({ night: true })` leem e mudam o estado compartilhado (noite, ação, batalha), e
+`__studio.setCardId(null)` fecha o card sem encerrar a animação, para ver a pose. `window.__studioSim` é a
+simulação do personagem: `__studioSim.blinkUntil = 1e9` fecha os olhos, `__studioSim.bumpUntil =
+performance.now() + 60000` força a cara de susto e `__studioSim.idle = { kind: "stretch", t: 0.5, dir: 1 }`
+força um gesto. O balão `.door-prompt` mostra qual estação está ativa. Confira o visual dos objetos novos de
+perto, se o personagem para na borda deles e se todos os caminhos entre as estações continuam chegando com o
+balão certo.
 
 ## Guia rápido de alterações
 
@@ -202,8 +248,11 @@ as estações continuam chegando com o balão certo.
 | Currículo | substituir `src/data/curriculo do Wagner.pdf` |
 | Textos e links dos cards do game | `src/game/content.ts` (`CARDS`, `LINKS`) |
 | Um móvel do estúdio | `src/game/studio/props.tsx` e `OBSTACLES` em `content.ts` |
-| Tela de um monitor ou da TV do estúdio | `src/game/studio/textures.ts` |
-| Personagem | `src/game/studio/Player.tsx`, `faceTexture` e `outfitTexture` |
+| Tela de um monitor do estúdio | `src/game/studio/textures.ts` |
+| Minigame (regras, cena, controles) | `src/game/battle.ts`, `drawBattle` em `textures.ts`, `src/game/BattleGame.tsx` |
+| Efeitos sonoros | `src/game/audio.ts` |
+| Luzes de dia e de noite | `src/game/studio/Lights.tsx` |
+| Personagem, gestos e poses | `src/game/studio/Player.tsx`, `faceTexture` e `outfitTexture` |
 | Cores, fontes, animações | `tailwind.config.js` e `src/index.css` |
 | Meta tags e prévia de compartilhamento | `index.html` e `VITE_SITE_URL` |
 
