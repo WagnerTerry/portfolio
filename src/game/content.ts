@@ -65,7 +65,7 @@ export const STATIONS: Station[] = [
     id: "linkedin",
     label: "Banner LinkedIn",
     prompt: "Abrir o LinkedIn",
-    zone: { x1: -6.7, z1: 0.1, x2: -4.3, z2: 1.9 },
+    zone: { x1: -6.7, z1: 0.1, x2: -4.3, z2: 1.5 },
     approach: { x: -5.5, z: 1.0 },
     marker: [-5.5, 2.7, -0.4],
   },
@@ -88,6 +88,10 @@ export const OBSTACLES: Rect[] = [
   { x1: -6.4, z1: -0.9, x2: -4.6, z2: 0.0 }, // banner do LinkedIn
   { x1: 5.6, z1: 2.9, x2: 6.8, z2: 4.1 }, // planta
   { x1: 5.95, z1: -1.35, x2: 6.65, z2: -0.65 }, // luminária
+  { x1: -6.85, z1: 0.6, x2: -5.95, z2: 1.45 }, // guitarra no suporte
+  { x1: 4.0, z1: -0.05, x2: 6.0, z2: 0.65 }, // rack da TV
+  { x1: 4.5, z1: 1.4, x2: 5.5, z2: 2.4 }, // pufe
+  { x1: -4.0, z1: 3.85, x2: -1.8, z2: 4.8 }, // mesa auxiliar + banquinho
 ];
 
 export type CardLink = {

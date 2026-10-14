@@ -57,11 +57,13 @@ type CylinderProps = {
   radiusTop?: number;
   segments?: number;
   emissive?: string;
+  /** gira em torno do centro (at + altura/2); com [π/2, 0, 0] vira um disco de frente para +z */
+  rotation?: [number, number, number];
 };
 
-export function Cylinder({ radius, height, at, color, radiusTop, segments = 24, emissive }: CylinderProps) {
+export function Cylinder({ radius, height, at, color, radiusTop, segments = 24, emissive, rotation }: CylinderProps) {
   return (
-    <mesh position={[at[0], at[1] + height / 2, at[2]]} castShadow receiveShadow>
+    <mesh position={[at[0], at[1] + height / 2, at[2]]} rotation={rotation} castShadow receiveShadow>
       <cylinderGeometry args={[radiusTop ?? radius, radius, height, segments]} />
       <meshStandardMaterial
         color={color}
