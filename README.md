@@ -12,4 +12,8 @@ demanda para não pesar no site.
 
 ## Site
 
+- antigo
 https://portfolio-wagnerterry.vercel.app/
+
+- novo
+https://portfolio-wagner-terry-projects.vercel.app/
